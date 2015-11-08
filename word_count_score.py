@@ -32,7 +32,7 @@ def get_words_counts(filename):
 
 			# removes all non-space, non-alpha characters
 			import re
-			words = " ".join(re.findall("[a-zA-Z ]+", words))
+			words = " ".join(re.findall("[a-zA-Z ']+", words))
 
 			# makes everything lowercase
 			words = words.lower()
@@ -40,6 +40,11 @@ def get_words_counts(filename):
 			# used so we only count the word once per comment
 			mentioned = [] 
 			for word in words.split(' '):
+				if word.startswith("'"):
+					word = word[1:]
+				if word.endswith("'"):
+					word = word[:-1]
+
 				word = word.strip()
 				if len(word) < 2:
 					continue
@@ -62,6 +67,22 @@ def write_words_scores(words_scores):
 			except Exception, e:
 				pass
 
+def sort_and_normalize(words_counts):
+	"""
+	Normalizes and sorts the words_counts by total score
+	"""
+	sorted_words_counts = sorted(words_counts.items(), key=lambda entry: entry[1][0], reverse=True)
+	max_score = sorted_words_counts[0][1][0]
+
+	normalized = []
+	for entry in sorted_words_counts:
+		word = entry[0]
+		score, count = entry[1]
+		normalized_score = round(float(score) / max_score, 3)
+		normalized.append((str(word), (normalized_score, score, count)))
+
+	return normalized
+
 
 def get_top_bottom(words_counts, n=100):
 	"""
@@ -70,11 +91,11 @@ def get_top_bottom(words_counts, n=100):
 	"""
 	sorted_words_counts = sorted(words_counts.items(), key=lambda entry: entry[1][0])
 	print "Bottom words"
-	for i in range(20):
+	for i in range(n):
 		print sorted_words_counts[i]
 	print ''
 	print "Top Words"
-	for i in range(1, 21):
+	for i in range(1, n + 1):
 		print sorted_words_counts[i * -1]
 
 
@@ -94,11 +115,15 @@ def main():
 	print len(first_words_counts.keys()), len(second_words_counts.keys())
 
 	print ''
-	print "getting top and bottom words for {}".format(first_file)
-	get_top_bottom(first_words_counts)
+	print "getting top words for {}".format(first_file)
+	first_normalized = sort_and_normalize(first_words_counts)
+	for i in range(100):
+		print first_normalized[i]
 	print ''
-	print "getting top and bottom words for {}".format(second_file)
-	get_top_bottom(second_words_counts)
+	print "getting top words for {}".format(second_file)
+	second_normalized = sort_and_normalize(second_words_counts)
+	for i in range(100):
+		print second_normalized[i]
 
 
 if __name__ == "__main__":
