@@ -4,7 +4,7 @@ import sys
 
 path_to_comment_dump = sys.argv[1]
 
-subreddits = ['AskMen', 'AskWomen']
+subreddits = ['AskMen', 'AskWomen', 'cats', 'dogs', 'nfl', 'soccer', 'leagueoflegends', 'DotA2']
 subreddit_results = []
 searches = []
 for idx,r in enumerate(subreddits):

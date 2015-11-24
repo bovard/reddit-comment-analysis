@@ -107,7 +107,8 @@ print 'a total of {} unique words'.format(len(top_word_list))
 all_data = {
     'dataTable': data_frame,
     'allWords': list(top_word_list),
-    'subredditTopWords': top_words
+    'subredditTopWords': top_words,
+    'subreddits': reddits
 }
 
 with open('data.json', 'w') as f:
