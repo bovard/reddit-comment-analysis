@@ -4,7 +4,7 @@ import sys
 
 path_to_comment_dump = sys.argv[1]
 
-subreddits = ['liberal', 'conservative']
+subreddits = ['AskMen', 'AskWomen']
 subreddit_results = []
 searches = []
 for idx,r in enumerate(subreddits):
@@ -19,6 +19,7 @@ with open(path_to_comment_dump) as f:
 				break
 
 for idx, r in enumerate(subreddits):
+	print "Collected {} comments from subreddit {}".format(len(subreddit_results[idx]), r)
 	with open('{}.json'.format(r), 'w') as f:
 		f.write(''.join(subreddit_results[idx]))
 
