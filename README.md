@@ -39,6 +39,12 @@ You'll end up with a 29GB file of json comment data called RC_2015-08. Each entr
 
 # running the scripts
 
+You'll need to install the stop-words pip package:
+
+```
+pip install stop_words
+```
+
 First thing you will want to do it to pull out all the subreddit data (which ends up in subreddits/). To control what subreddits you are looking at, you can edit the `subreddits` list in [get_subreddit.py](https://github.com/bovard/reddit-comment-analysis/blob/master/get_subreddit.py#L7).
 
 To do this, you'll need to run the get_subreddit.py
@@ -47,8 +53,9 @@ To do this, you'll need to run the get_subreddit.py
 python get_subreddit.py path/to/giant/29G/RC_2015-08
 ```
 
-Then you can compile together the data for the visualization by doing:
+That should take a couple minutes on a MacBook Pro. Then you can compile together the data for the visualization by doing:
 
 ```
 python compile_data.py
 ```
+That should also take a couple minutes on a macbook pro.

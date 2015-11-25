@@ -20,7 +20,7 @@ with open(path_to_comment_dump) as f:
 
 for idx, r in enumerate(subreddits):
 	print "Collected {} comments from subreddit {}".format(len(subreddit_results[idx]), r)
-	with open('{}.json'.format(r), 'w') as f:
+	with open('./subreddits/{}.json'.format(r), 'w') as f:
 		f.write(''.join(subreddit_results[idx]))
 
 
