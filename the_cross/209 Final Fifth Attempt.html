@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>The Cross First Attempt</title>
+		<script type="text/javascript" src="../d3/d3.js"></script>
+		<script type="text/javascript" src="../d3/underscore-min.js"></script>
+		<script type="text/javascript" src="scripts/autocomplete.js"></script>
+		<link rel="stylesheet" href="styles/style.css"/>
+		<link rel="stylesheet" href="fonts/bariol/bariol.css"/>
+		<style type="text/css">
+			.tooltip {
+  				position: absolute;
+  				width: 60px;
+  				height: 12px;
+  				font: 10px sans-serif;
+  				background: white;
+  				text-align: center;
+  				pointer-events: none;
+			}			
+		</style>
+	</head>
+	<body>
+		<div id="test" style="width:100%; height:100%;"></div>
+		
+	<script language="JavaScript">
+	
+		var json_data;
+			
+		d3.json("data.json", function(json) {
+			json_data = json;
+		});
+		
+		function Clear_All() {    
+            var dataCircles = d3.select("body").select("svg").selectAll("circle")	
+            var dataCircleAttribute = dataCircles
+            	.attr("cx", function(d) {
+			   		return 0;
+			   })
+			   .attr("cy", function(d) {
+			   		return 0;
+			   })
+			   .attr("r", function(d) {
+			   		return 1;
+			   })
+			   .attr("fill", ("r", function(d) {
+			   		return "black";
+			   		}));
+      		};
+		
+	</script>	
+	
+	<script language="JavaScript">
+	
+	setTimeout(function(){
+    		
+		d3.select("body").append("input")
+    		.attr("type", "button")
+    		.attr("value", "Clear All")
+    		.attr("onclick", "Clear_All()");
+
+    //Variable to hold autocomplete options
+
+    		
+    	var keys;
+
+    //Load US States as options from CSV - but this can also be created dynamically
+    	d3.csv("words.csv",function (csv) {
+        	keys=csv;
+        	start();
+    	});
+
+
+    //Call back for when user selects an option
+    	function onSelect(d) {
+        	var putting = get_word(d["State"],"AskMen","AskWomen","soccer","nfl");
+			row_data.push(putting);
+			add_circles(row_data, radiusScale, circleScale, colorScale);
+			update_side_text(d["State"], leftCategory, side_padding);
+      		update_side_text(d["State"], rightCategory, side_padding + side_width + side_height);
+      		update_mid_text(d["State"], topCategory, top_padding);
+      		update_mid_text(d["State"], bottomCategory, top_padding + side_width + side_height);
+    	}
+
+    //Setup and render the autocomplete
+    	function start() {
+        	var mc = autocomplete(document.getElementById('test'))
+                .keys(keys)
+                .dataField("State")
+                .placeHolder("Search Words - Start typing here")
+                .width(750)
+                .height(500)
+                .onSelected(onSelect)
+                .render();
+   		}
+
+			//Change these variables to adjust size of viz
+			var top_padding = 50;
+			var side_padding = 50;
+			var side_height = 400;
+			var side_width = 200;
+			
+			//These variables determine the four categories
+			var leftCategory = "AskMen";
+			var rightCategory = "AskWomen";
+			var topCategory = "cats";
+			var bottomCategory = "dogs";
+			
+			//This data is used to create the rects in the cross
+			//No need to change anything, it feeds off of the above variables
+			var rectangleData = [
+				{ "rx": side_padding, "ry": top_padding 
+				+ side_width, "height": side_height, "width": side_width},
+				{ "rx": side_padding + side_width, "ry": top_padding,
+				 "height": side_width, "width": side_height},
+				{ "rx": side_padding + side_width, "ry": top_padding 
+				+ side_width, "height": side_height, "width": side_height},
+				{ "rx": side_padding + side_width + side_height, "ry": top_padding 
+				+ side_width, "height": side_height, "width": side_width},
+				{ "rx": side_padding + side_width, "ry": top_padding 
+				+ side_width + side_height, "height": side_width, "width": side_height}];
+				
+				
+			//Create the axis of the center square using above variables	
+			var lineData = [
+				{ "startx": side_padding + side_width + (side_height/2), "starty": top_padding +
+				 side_width, "endx": side_padding + side_width + (side_height/2), "endy": top_padding + side_width + side_height},
+				 { "startx": side_padding + side_width, "starty": top_padding +
+				 side_width + (side_height/2), "endx": side_padding + side_width + side_height, "endy": top_padding +
+				 side_width + (side_height/2)}];			
+			
+			
+			var all_data = get_row_data([],json_data["allWords"],"AskMen","AskWomen","soccer","nfl")
+			
+			//Scale to put circles in the center rect
+			var radiusScale = d3.scale.linear()
+                     .domain([d3.min(all_data, function(d) {return d[9]}), d3.max(all_data, function(d) {return d[9]})])
+                     .range([5, 30]);
+                     
+            var circleScale = d3.scale.linear()
+					.domain([-.3, .3])
+					.range([side_padding + side_width, side_padding + side_width + side_height]);
+					
+			var colorScale = d3.scale.linear()
+    				.domain([d3.min(all_data, function(d) {return d[10]}),
+    			 	d3.mean(all_data, function(d) {return d[10]}), d3.max(all_data, function(d) {return (d[10])})])
+    				.range(["red", "white", "blue"]);
+    				
+    		var svgContainer = d3.select("body").append("svg")
+                                   .attr("width", 2000)
+                                   .attr("height", 1000);	
+             
+             //Create tooltip variables                      
+            var tooltip = d3.select("body").append("div")
+    			.attr("class", "tooltip")
+    			.style("opacity", 0);
+                                   
+            //Create rects
+            var rectangles = svgContainer.selectAll("rect")
+                            .data(rectangleData)
+                            .enter()
+                            .append("rect");
+            
+            //Add attributes using above rectangleData                
+        	var rectangleAttributes = rectangles
+                           .attr("x", function (d) { return d.rx; })
+                           .attr("y", function (d) { return d.ry; })
+                           .attr("height", function (d) { return d.height; })
+                           .attr("width", function (d) { return d.width; })
+                           .style("fill", "white")
+                           .style("stroke", "black");
+             
+             //Create lines           
+            var lines = svgContainer.selectAll("line")
+                            .data(lineData)
+                            .enter()
+                            .append("line");
+            
+            //Add attributes using above lineData
+            var lineAttributes = lines
+            	.attr("x1", function (d) { return d.startx; })
+                .attr("y1", function (d) { return d.starty; })
+                .attr("x2", function (d) { return d.endx; })
+                .attr("y2", function (d) { return d.endy; })
+                .style("stroke", "black")
+                .style("stroke-dasharray", "4,4");
+               
+            //Add left text    
+            svgContainer.append("text")
+        		.attr("x", side_padding + 100)             
+        		.attr("y", top_padding + side_width + 50)
+        		.attr("text-anchor", "middle")  
+       			.style("font-size", "20px") 
+        		.text(leftCategory);
+        		
+        	//Add right text	
+        	svgContainer.append("text")
+        		.attr("x", side_padding + side_width + side_height + 100)             
+        		.attr("y", top_padding + side_width + 50)
+        		.attr("text-anchor", "middle")  
+       			.style("font-size", "20px")
+        		.text(rightCategory);
+        		
+        	//Add left text	
+        	svgContainer.append("text")
+        		.attr("x", side_padding + side_width + 100)             
+        		.attr("y", top_padding + 100)
+        		.attr("text-anchor", "middle")  
+       			.style("font-size", "20px") 
+        		.text(topCategory);
+        	
+        	//Add top text	
+        	svgContainer.append("text")
+        		.attr("x", side_padding + side_width + 100)             
+        		.attr("y", top_padding + side_width + side_height + 100)
+        		.attr("text-anchor", "middle")  
+       			.style("font-size", "20px") 
+        		.text(bottomCategory);
+        		
+        	function update_side_text(word, direction, side_padding1) {
+        		svgContainer.append("rect")
+        			.attr("x", side_padding1 + 4)
+        			.attr("y", top_padding + side_width + 58)
+        			.attr("width", side_width - 10)
+        			.attr("height", side_height - 98)
+        			.style("fill", "white");
+        		svgContainer.append("text")
+        			.attr("x", side_padding1 + 100)             
+        			.attr("y", top_padding + side_width + 80)
+        			.attr("text-anchor", "middle")  
+       				.style("font-size", "16px")
+        			.text("Word: " + word);
+        		svgContainer.append("text")
+        			.attr("x", side_padding1 + 100)             
+        			.attr("y", top_padding + side_width + 100)
+        			.attr("text-anchor", "middle")  
+       				.style("font-size", "16px")
+        			.text("Total Count:  " + json_data["dataTable"][word][direction]["tc"]);
+        		svgContainer.append("text")
+        			.attr("x", side_padding1 + 100)             
+        			.attr("y", top_padding + side_width + 120)
+        			.attr("text-anchor", "middle")  
+       				.style("font-size", "16px")
+        			.text("Normalized Count:  " + json_data["dataTable"][word][direction]["nc"]);
+        		svgContainer.append("text")
+        			.attr("x", side_padding1 + 100)             
+        			.attr("y", top_padding + side_width + 140)
+        			.attr("text-anchor", "middle")  
+       				.style("font-size", "16px")
+        			.text("Total Score:  " + json_data["dataTable"][word][direction]["ts"]);
+        		svgContainer.append("text")
+        			.attr("x", side_padding1 + 100)             
+        			.attr("y", top_padding + side_width + 160)
+        			.attr("text-anchor", "middle")  
+       				.style("font-size", "16px")
+        			.text("Normalized Score:  " + json_data["dataTable"][word][direction]["ns"]);
+        		};
+        		
+        	function update_mid_text(word, direction, top_padding1) {
+        		svgContainer.append("rect")
+        			.attr("x", side_padding + side_width + 150)
+        			.attr("y", top_padding1 + 58)
+        			.attr("width", side_height - 175)
+        			.attr("height", side_width - 68)
+        			.style("fill", "white");
+        		svgContainer.append("text")
+        			.attr("x", side_padding + side_width + 260)             
+        			.attr("y", top_padding1 + 80)
+        			.attr("text-anchor", "middle")  
+       				.style("font-size", "16px")
+        			.text("Word: " + word);
+        		svgContainer.append("text")
+        			.attr("x", side_padding + side_width + 260)             
+        			.attr("y", top_padding1 + 100)
+        			.attr("text-anchor", "middle")  
+       				.style("font-size", "16px")
+        			.text("Total Count:  " + json_data["dataTable"][word][direction]["tc"]);
+        		svgContainer.append("text")
+        			.attr("x", side_padding + side_width + 260)             
+        			.attr("y", top_padding1 + 120)
+        			.attr("text-anchor", "middle")  
+       				.style("font-size", "16px")
+        			.text("Normalized Count:  " + json_data["dataTable"][word][direction]["nc"]);
+        		svgContainer.append("text")
+        			.attr("x", side_padding + side_width + 260)             
+        			.attr("y", top_padding1 + 140)
+        			.attr("text-anchor", "middle")  
+       				.style("font-size", "16px")
+        			.text("Total Score:  " + json_data["dataTable"][word][direction]["ts"]);
+        		svgContainer.append("text")
+        			.attr("x", side_padding + side_width + 260)             
+        			.attr("y", top_padding1 + 160)
+        			.attr("text-anchor", "middle")  
+       				.style("font-size", "16px")
+        			.text("Normalized Score:  " + json_data["dataTable"][word][direction]["ns"]);
+        		};
+        		
+            
+            //Create circles for data
+        function add_circles(circle_data, radiusScaler, circleScaler, colorScaler) {    
+            var dataCircles = svgContainer.selectAll("circle")
+            	.data(circle_data)
+            	.enter()
+            	.append("circle");    	
+            //Add attributes based on testData	
+            var dataCircleAttribute = dataCircles
+            	.attr("cx", function(d) {
+			   		return circleScaler(d[1] - d[3]);
+			   })
+			   .attr("cy", function(d) {
+			   		return circleScaler(d[5] - d[7]);
+			   })
+			   .attr("r", function(d) {
+			   		return radiusScaler(d[9]);
+			   })
+			   .attr("fill", ("r", function(d) {
+			   		return colorScaler(d[10]);
+			   		}))
+			   	//Add in tooltips
+			   	.on("mouseover", function(d) {
+          			tooltip.transition()
+               		.duration(200)
+               		.style("opacity", 1)
+               		.style("color", "black")
+          			tooltip.html(d[0])
+               		.style("left", (d3.event.pageX + 5) + "px")
+               		.style("top", (d3.event.pageY - 28) + "px");
+      			})
+      			.on("mouseout", function(d) {
+          			tooltip.transition()
+               		.duration(500)
+               		.style("opacity", 0);
+      			})
+      			.on("click", function(d) {
+      				update_side_text(d[0], leftCategory, side_padding);
+      				update_side_text(d[0], rightCategory, side_padding + side_width + side_height);
+      				update_mid_text(d[0], topCategory, top_padding);
+      				update_mid_text(d[0], bottomCategory, top_padding + side_width + side_height);});
+      		};
+      			
+
+		//Get top ten words for primary subreddit comparison
+        	function get_top_ten(the_data, holder, sub_one, sub_two) {
+        		var one_top = the_data["subredditTopWords"][sub_one].slice(0,11);
+        		var two_top = the_data["subredditTopWords"][sub_two].slice(0,11);
+        		var combined = _.union(one_top, two_top);
+        		console.log(combined);
+        		return combined;
+        	};
+        	
+        	function get_row_data(starting_list, new_list, right, left, bottom, top) {
+        		for (i = 0, len = new_list.length; i < len; i++) { 
+    				temp = [];
+    				temp.push(new_list[i]);
+    				temp.push(json_data["dataTable"][new_list[i]][right]["nc"]);
+    				temp.push(json_data["dataTable"][new_list[i]][right]["ns"]);
+    				temp.push(json_data["dataTable"][new_list[i]][left]["nc"]);
+    				temp.push(json_data["dataTable"][new_list[i]][left]["ns"]);
+    				temp.push(json_data["dataTable"][new_list[i]][top]["nc"]);
+    				temp.push(json_data["dataTable"][new_list[i]][top]["ns"]);
+    				temp.push(json_data["dataTable"][new_list[i]][bottom]["nc"]);
+    				temp.push(json_data["dataTable"][new_list[i]][bottom]["ns"]);
+    				temp.push(temp[1]+temp[3]+temp[5]+temp[7]);
+    				temp.push(temp[2]+temp[4]+temp[6]+temp[8]);
+    				starting_list.push(temp);
+				}
+				return starting_list;
+			};
+			
+			function get_word(word, right, left, bottom, top) {
+				temp = [];
+				temp.push(word);
+				temp.push(json_data["dataTable"][word][right]["nc"]);
+    			temp.push(json_data["dataTable"][word][right]["ns"]);
+    			temp.push(json_data["dataTable"][word][left]["nc"]);
+    			temp.push(json_data["dataTable"][word][left]["ns"]);
+    			temp.push(json_data["dataTable"][word][top]["nc"]);
+    			temp.push(json_data["dataTable"][word][top]["ns"]);
+    			temp.push(json_data["dataTable"][word][bottom]["nc"]);
+    			temp.push(json_data["dataTable"][word][bottom]["ns"]);
+    			temp.push(temp[1]+temp[3]+temp[5]+temp[7]);
+    			temp.push(temp[2]+temp[4]+temp[6]+temp[8]);
+    			return temp;
+    		};       	        	
+        			
+        		var the_top_ten = get_top_ten(json_data, "subredditTopWords", leftCategory, rightCategory);
+        		var row_data = get_row_data([],the_top_ten,rightCategory,leftCategory,topCategory,bottomCategory);
+        		var all_data = get_row_data([],json_data["allWords"],rightCategory,leftCategory,topCategory,bottomCategory)
+				add_circles(row_data, radiusScale, circleScale, colorScale);	
+	}, 200);			
+		</script>
+	</body>
+</html>
