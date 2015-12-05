@@ -46,20 +46,35 @@ count = data1[0]["value"][cloud1]["nc"];
 console.log(JSON.stringify(data1[0]));
 console.log(word);
 console.log(count);
+console.log(data1[0]["value"][cloud1]["ns"])
+
+console.log('data length:',data1.length);
+
 
 var list1 = data1
-			.map(function(d) { return d["value"][cloud1]["tc"] < 300 ? null : {text: d["key"], count: d["value"][cloud1]["tc"]}  }) 
-			.filter(function (v) { return v != null});
+			.map(function(d) { return d["value"][cloud1]["nc"] < 0.1 ? null : {text: d["key"], count: d["value"][cloud1]["nc"] * 100}  }) 
+			.filter(function (v) { return v != null})
+			.sort(function(a,b) { return b.count - a.count});
 
 
 var list2 = data1
-			.map(function(d) { return d["value"][cloud2]["tc"] < 300 ? null : {text: d["key"], count: d["value"][cloud2]["tc"]}  }) 
-			.filter(function (v) { return v != null});
-			
-			
-var maxScore = d3.max([d3.max(list1, function(d){ return +d.count}), d3.max(list2, function(d){ return +d.count})]);
-var minScore = d3.min([d3.min(list1, function(d){ return +d.count}), d3.min(list2, function(d){ return +d.count})]);
+			.map(function(d) { return d["value"][cloud2]["nc"] < 0.1 ? null : {text: d["key"], count: d["value"][cloud2]["nc"] * 100}  }) 
+			.filter(function (v) { return v != null})
+			.sort(function(a,b) { return b.count - a.count});
 
+// Display only the top 50 words in each cloud
+var maxDisplay = 50;
+var shortest = d3.min([list1.length,list2.length, maxDisplay]);
+list1.splice(shortest, list1.length - shortest);
+list2.splice(shortest, list2.length - shortest);
+
+
+		
+var max1 = d3.max(list1, function(d){ return +d.count})
+var max2 = d3.max(list2, function(d){ return +d.count})
+console.log(max1, max2)
+var maxScore = d3.max([max1, max2]);
+var minScore = d3.min([d3.min(list1, function(d){ return +d.count}), d3.min(list2, function(d){ return +d.count})]);
 
 			
 var fScale = d3.scale.linear()
@@ -72,7 +87,7 @@ var layout = d3.layout.cloud()
     .size([cloudwidth, cloudheight])
     .words(list1)
 	.padding(5)
-    .rotate(function() { return ~~(Math.random() * 2) * angle; })
+    .rotate(function() { return ~~(Math.random() * 2) ; }) // * angle
     .font(cloudfont)
     .fontSize(function(d) { return fScale(d.count); })
     .on("end", draw);
@@ -85,7 +100,7 @@ var svg = d3.select("body")
 				.attr("width", textwidth)
 				.attr("height", cloudheight)
 				.attr("float", "right")
-				.style("border", "1px solid black")
+				//.style("border", "1px solid black")
 				.attr("id", "details");
 	svg.append("text")
 		.attr("x", textwidth/2)
@@ -109,6 +124,20 @@ var svg = d3.select("body")
         .attr("y1", 70)
         .attr("x2", textwidth - 5)
         .attr("y2", 70);
+	svg.append("text")
+		.attr("x", 5)             
+        .attr("y", cloudheight - 35)
+        .attr("text-anchor", "left")
+       	.style("font-size", "13px")
+       	.style("font-family", "bariol_regularregular")
+        .text("* Only displaying the top " + maxDisplay);
+	svg.append("text")
+		.attr("x", 12)             
+        .attr("y", cloudheight - 15)
+        .attr("text-anchor", "left")
+       	.style("font-size", "13px")
+       	.style("font-family", "bariol_regularregular")
+        .text("words in each subreddit");
 
 
 // Second wordcloud
@@ -116,7 +145,7 @@ layout = d3.layout.cloud()
     .size([cloudwidth, cloudheight])
     .words(list2)
 	.padding(5)
-    .rotate(function() { return ~~(Math.random() * 2) * angle; })
+    .rotate(function() { return ~~(Math.random() * 2) ; }) // * angle
     .font(cloudfont)
     .fontSize(function(d) { return fScale(d.count); })
     .on("end", draw);
@@ -174,21 +203,21 @@ function write(word) {
         .attr("text-anchor", "left")
        	.style("font-size", "16px")
        	.style("font-family", "bariol_regularregular")
-        .text('Count in each subreddit:');
+        .text('Normalized count:');
     svg.append("text")
 		.attr("x", 15)             
         .attr("y", 210)
         .attr("text-anchor", "left")
        	.style("font-size", "16px")
        	.style("font-family", "bariol_regularregular")
-        .text(cloud1 +' - ' + data["dataTable"][word][cloud1]["tc"]);
+        .text(cloud1 +' - ' + Math.round(data["dataTable"][word][cloud1]["nc"] * 10000) / 100); // One decimal place
 	svg.append("text")
 		.attr("x", 15)             
         .attr("y", 240)
         .attr("text-anchor", "left")
        	.style("font-size", "16px")
        	.style("font-family", "bariol_regularregular")
-        .text(cloud2 +' - ' + data["dataTable"][word][cloud2]["tc"]);
+        .text(cloud2 +' - ' + Math.round(data["dataTable"][word][cloud2]["nc"] * 10000) / 100); // One decimal place
     svg.append("text")
 		.attr("x", 5)             
         .attr("y", 280)
@@ -210,6 +239,20 @@ function write(word) {
        	.style("font-size", "16px")
        	.style("font-family", "bariol_regularregular")
         .text(cloud2 + ' - ' + data["dataTable"][word][cloud2]["ts"]);
+	svg.append("text")
+		.attr("x", 5)             
+        .attr("y", cloudheight - 35)
+        .attr("text-anchor", "left")
+       	.style("font-size", "13px")
+       	.style("font-family", "bariol_regularregular")
+        .text("* Only displaying the top " + maxDisplay);
+	svg.append("text")
+		.attr("x", 12)             
+        .attr("y", cloudheight - 15)
+        .attr("text-anchor", "left")
+       	.style("font-size", "13px")
+       	.style("font-family", "bariol_regularregular")
+        .text("words in each subreddit");
 	}
 
 	
