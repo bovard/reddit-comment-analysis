@@ -30,7 +30,7 @@ var fill = d3.scale.category10();
 var angle = 60
 var cloudwidth = 450;
 var cloudheight = 550;
-var textwidth = 100;
+var textwidth = 180;
 var cloudfont = "Cambria"; // e.g. "Impact", "Serif"
 
 var cloud1 = data.subreddits[0];
@@ -42,25 +42,24 @@ var data1 = d3.entries(data.dataTable);
 
 var word = JSON.stringify(data1[0].key);
 word = data1[0]["key"];
-score = data1[0]["value"][cloud1]["ts"];
+count = data1[0]["value"][cloud1]["nc"];
 console.log(JSON.stringify(data1[0]));
 console.log(word);
-console.log(score);
+console.log(count);
 
-var list1 = data1.map(function(d) {
-			return {text: d["key"], score:  d["value"][cloud1]["ts"]}; 
-			});
+var list1 = data1
+			.map(function(d) { return d["value"][cloud1]["tc"] < 300 ? null : {text: d["key"], count: d["value"][cloud1]["tc"]}  }) 
+			.filter(function (v) { return v != null});
 
-var list2 = data1.map(function(d) {
-			return {text: d["key"], score:  d["value"][cloud2]["ts"]}; 
-			});
 
-console.log(d3.max(list1, function(d){ return +d.score}));			
+var list2 = data1
+			.map(function(d) { return d["value"][cloud2]["tc"] < 300 ? null : {text: d["key"], count: d["value"][cloud2]["tc"]}  }) 
+			.filter(function (v) { return v != null});
 			
-var maxScore = d3.max([d3.max(list1, function(d){ return +d.score}), d3.max(list2, function(d){ return +d.score})]);
-var minScore = d3.min([d3.min(list1, function(d){ return +d.score}), d3.min(list2, function(d){ return +d.score})]);
-console.log("max",maxScore);
-console.log("min",minScore);
+			
+var maxScore = d3.max([d3.max(list1, function(d){ return +d.count}), d3.max(list2, function(d){ return +d.count})]);
+var minScore = d3.min([d3.min(list1, function(d){ return +d.count}), d3.min(list2, function(d){ return +d.count})]);
+
 
 			
 var fScale = d3.scale.linear()
@@ -75,7 +74,7 @@ var layout = d3.layout.cloud()
 	.padding(5)
     .rotate(function() { return ~~(Math.random() * 2) * angle; })
     .font(cloudfont)
-    .fontSize(function(d) { return fScale(d.score); })
+    .fontSize(function(d) { return fScale(d.count); })
     .on("end", draw);
 
 layout.start();
@@ -83,12 +82,33 @@ layout.start();
 // Details svg
 var svg = d3.select("body")
 				.append("svg")
-				.attr("width", textwidth + 80)
+				.attr("width", textwidth)
 				.attr("height", cloudheight)
 				.attr("float", "right")
 				.style("border", "1px solid black")
 				.attr("id", "details");
-d3.select(svg);
+	svg.append("text")
+		.attr("x", textwidth/2)
+		.attr("y", 35)
+        .attr("text-anchor", "middle")
+       	.style("font-size", "16px")
+       	.style("font-family", "bariol_regularregular")
+        .text("Hover over a word");
+	svg.append("text")
+		.attr("x", textwidth/2)
+		.attr("y", 55)
+        .attr("text-anchor", "middle")
+       	.style("font-size", "16px")
+       	.style("font-family", "bariol_regularregular")
+        .text("for details");
+	svg.append("line")
+		.style("stroke-width", "1px")
+		.style("stroke", "black")
+		.style("shape-rendering", "crispEdges")
+        .attr("x1", 5)
+        .attr("y1", 70)
+        .attr("x2", textwidth - 5)
+        .attr("y2", 70);
 
 
 // Second wordcloud
@@ -98,7 +118,7 @@ layout = d3.layout.cloud()
 	.padding(5)
     .rotate(function() { return ~~(Math.random() * 2) * angle; })
     .font(cloudfont)
-    .fontSize(function(d) { return fScale(d.score); })
+    .fontSize(function(d) { return fScale(d.count); })
     .on("end", draw);
 
 layout.start();
@@ -111,40 +131,86 @@ function clear_text() {
 
 function write(word) {
 	svg.append("text")
-		.attr("x", 75)             
-        .attr("y", 50)
+		.attr("x", textwidth/2)
+		.attr("y", 35)
         .attr("text-anchor", "middle")
-       	.style("font-size", "20px")
+       	.style("font-size", "16px")
+       	.style("font-family", "bariol_regularregular")
+        .text("Hover over a word");
+	svg.append("text")
+		.attr("x", textwidth/2)
+		.attr("y", 55)
+        .attr("text-anchor", "middle")
+       	.style("font-size", "16px")
+       	.style("font-family", "bariol_regularregular")
+        .text("for details");
+	svg.append("line")
+		.style("stroke-width", "1px")
+		.style("stroke", "black")
+		.style("shape-rendering", "crispEdges")
+        .attr("x1", 5)
+        .attr("y1", 70)
+        .attr("x2", textwidth - 5)
+        .attr("y2", 70);
+	svg.append("text")
+		.attr("x", textwidth/2)             
+        .attr("y", 110)
+        .attr("text-anchor", "middle")
+		.style("font-weight", "bold")
+       	.style("font-size", "30px")
        	.style("font-family", "bariol_regularregular")
         .text(word);
+	svg.append("line")
+		.style("stroke-width", "1px")
+		.style("stroke", "black")
+		.style("shape-rendering", "crispEdges")
+        .attr("x1", 5)
+        .attr("y1", 135)
+        .attr("x2", textwidth - 5)
+        .attr("y2", 135);
     svg.append("text")
 		.attr("x", 5)             
-        .attr("y", 80)
+        .attr("y", 180)
         .attr("text-anchor", "left")
        	.style("font-size", "16px")
        	.style("font-family", "bariol_regularregular")
-        .text('Subreddit 1 Count: ' + data["dataTable"][word]["cats"]["tc"]);
+        .text('Count:');
     svg.append("text")
-		.attr("x", 5)             
-        .attr("y", 110)
+		.attr("x", 15)             
+        .attr("y", 210)
         .attr("text-anchor", "left")
        	.style("font-size", "16px")
        	.style("font-family", "bariol_regularregular")
-        .text('Subreddit 2 Count: ' + data["dataTable"][word]["dogs"]["tc"]);
-    svg.append("text")
-		.attr("x", 5)             
-        .attr("y", 140)
+        .text(cloud1 +' - ' + data["dataTable"][word][cloud1]["tc"]);
+	svg.append("text")
+		.attr("x", 15)             
+        .attr("y", 240)
         .attr("text-anchor", "left")
        	.style("font-size", "16px")
        	.style("font-family", "bariol_regularregular")
-        .text('Subreddit 1 Score: ' + data["dataTable"][word]["cats"]["ts"]);
+        .text(cloud2 +' - ' + data["dataTable"][word][cloud2]["tc"]);
     svg.append("text")
 		.attr("x", 5)             
-        .attr("y", 170)
+        .attr("y", 280)
         .attr("text-anchor", "left")
        	.style("font-size", "16px")
        	.style("font-family", "bariol_regularregular")
-        .text('Subreddit 2 Score: ' + data["dataTable"][word]["dogs"]["ts"]);}
+        .text('Score:');
+	svg.append("text")
+		.attr("x", 15)             
+        .attr("y", 310)
+        .attr("text-anchor", "left")
+       	.style("font-size", "16px")
+       	.style("font-family", "bariol_regularregular")
+        .text(cloud1 +' - ' + data["dataTable"][word][cloud1]["ts"]);
+    svg.append("text")
+		.attr("x", 15)             
+        .attr("y", 340)
+        .attr("text-anchor", "left")
+       	.style("font-size", "16px")
+       	.style("font-family", "bariol_regularregular")
+        .text(cloud2 + ' - ' + data["dataTable"][word][cloud2]["ts"]);
+	}
 
 	
 
@@ -177,7 +243,7 @@ function draw(words) {
 				.transition()
 				.duration(200)
 				.style("opacity", function(o){
-					if (d.score > 0) {
+					if (d.count > 0) {
 						return o.text === d.text ? 1 : .2;}
 					return 1;
 				})
