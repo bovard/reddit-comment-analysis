@@ -83,7 +83,6 @@ def sort_and_normalize(words_counts):
 
     return normalized
 
-
 def combine(first_normalized, second_normalized):
     """
     Takes the top 100 words from both and compares them to the other list
