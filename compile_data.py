@@ -5,8 +5,8 @@ SUBREDDITS = './subreddits'
 
 TS_IDX = 0 # Total Score
 NS_IDX = 1 # Normalized Score
-TC_IDX = 2 # Normalized unique Comments
-NC_IDX = 3 # Total unique Comments
+TC_IDX = 2 # Total unique Comments
+NC_IDX = 3 # Normalized unique Comments
 
 reddits = []
 reddit_data = {}
