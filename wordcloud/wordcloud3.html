@@ -66,6 +66,31 @@ function createClouds(cloud1, cloud2) {
 		  .domain([minScore, maxScore])
 		  .range([12, 120]);
 	
+		
+	// Title bar
+	var tbar = d3.select("body")
+			.append("svg")
+			.attr("width", textwidth + cloudwidth + cloudwidth)
+			.attr("height", 50)
+			.attr("float", "right")
+			.style("border", "1px solid black")
+			.attr("id", "options");
+		tbar.append("text")
+			.attr("x", cloudwidth / 2) 
+			.attr("y", 30)
+			.attr("text-anchor", "middle") 
+			.style("font-size", "30px")
+			.style("font-weight", "bold")
+			.style("font-family", "bariol_regularregular")
+			.text(cloud1)
+		tbar.append("text")
+			.attr("x", cloudwidth + textwidth + cloudwidth / 2) 
+			.attr("y", 30)
+			.attr("text-anchor", "middle")
+			.style("font-weight", "bold")
+			.style("font-size", "30px")
+			.style("font-family", "bariol_regularregular")
+			.text(cloud2)
 				
 	// First wordcloud
 	var layout = d3.layout.cloud()
@@ -294,10 +319,9 @@ function createClouds(cloud1, cloud2) {
 			.attr("text-anchor", "left") 
 			.style("font-size", "24px")
 			.style("font-family", "bariol_regularregular")
-			.attr("class", "menwomen") // tag the word for linking
 			.text('AskMen vs. AskWomen')
 			.on("click", function(d) {
-				createClouds("cats", "dogs");
+				createClouds("AskMen", "AskWomen");
 				});
 		bar.append("text")
 			.attr("x", 335) 
@@ -305,7 +329,7 @@ function createClouds(cloud1, cloud2) {
 			.attr("text-anchor", "left") 
 			.style("font-size", "24px")
 			.style("font-family", "bariol_regularregular") 
-			.text('Cats vs. Dogs')
+			.text('cats vs. dogs')
 			.on("click", function(d) {
 				createClouds("cats", "dogs");
 				});
@@ -325,7 +349,7 @@ function createClouds(cloud1, cloud2) {
 			.attr("text-anchor", "left") 
 			.style("font-size", "24px")
 			.style("font-family", "bariol_regularregular") 
-			.text('DotA2 vs. LeagueofLegends')
+			.text('DotA2 vs. leagueoflegends')
 			.on("click", function(d) {
 				createClouds("DotA2", "leagueoflegends");
 				});
