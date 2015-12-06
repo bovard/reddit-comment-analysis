@@ -1,31 +1,4 @@
-<!DOCTYPE html>
-<head>
-
-    <script type="text/javascript" src="scripts/d3.min.js"></script>
-	<script type="text/javascript" src="scripts/d3.layout.cloud.js"></script>
-    <link rel="stylesheet" href="fonts/bariol/bariol.css"/>
-    <link rel="stylesheet" href="styles/style.css"/>
-
-</head>
-
-<body>
-
-
-
-
-<script>
-
-var data;
-d3.json("../data.json", function(error, json){
-//d3.json("data.json", function(error, json){
-	if (error) {
-        return console.warn(error);
-    }
-	data = json;
-	visualizeit();
-})
-
-function visualizeit(cloud1, cloud2) {   
+function visualizeit(cloud1, cloud2) {
 
 var fill = d3.scale.category10();
 var angle = 60;
@@ -342,11 +315,3 @@ function createClouds(cloud1, cloud2) {
 
 	
 }
-
-
-}
-</script>
-
-</body>
-
-</html>
