@@ -1,3 +1,11 @@
+//Create function to remove all circles
+function Clear_All() {
+    var dataCircles = d3.select("#cross").select("svg").selectAll("circle")
+    dataCircles.remove();
+    var row_data = []}
+
+
+
 var create_viz = function(leftCategory, rightCategory, topCategory, bottomCategory) {
     //Set delay to allow json to load
 
@@ -90,7 +98,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
         .range(["red", "white", "blue"]);
 
     //Create svg holder for viz
-    var svgContainer = d3.select("body").append("svg")
+    var svgContainer = d3.select("#cross").append("svg")
         .attr("width", 2000)
         .attr("height", 1000);
 
