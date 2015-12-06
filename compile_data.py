@@ -15,6 +15,9 @@ top_words = {}
 data_frame = {}
 
 
+from word_count_score import get_words_counts
+
+
 def normalize(words_counts):
     """
     Normalizes for comments and score
@@ -57,7 +60,6 @@ for subreddit in os.listdir(SUBREDDITS):
     print 'parsing {}'.format(name)
     reddits.append(name)
 
-    from word_count_score import get_words_counts
 
     filename = "{}/{}".format(SUBREDDITS, subreddit)
     word_count_scores = get_words_counts(filename)
