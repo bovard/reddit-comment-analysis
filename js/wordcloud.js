@@ -42,7 +42,7 @@ function createClouds(cloud1, cloud2) {
 	
 		
 	// Title bar
-	var tbar = d3.select("body")
+	var tbar = d3.select("#wordcloud")
 			.append("svg")
 			.attr("width", textwidth + cloudwidth + cloudwidth)
 			.attr("height", 50)
@@ -314,4 +314,5 @@ function createClouds(cloud1, cloud2) {
 				});
 
 	
+}
 }
