@@ -15,10 +15,16 @@
     <link href="css/page.css" rel="stylesheet">
 
     <!-- for word cloud -->
-    <link rel="styleheet" href="styles/style.css"/>
     <script type="text/javascript" src="js/wordcloud.js"></script>
 
+
+    <!-- for the cross -->
+    <link rel="stylesheet" href="css/style.css"/>
+    <script type="text/javascript" src="js/autocomplete.js"></script>
+    <script type="text/javascript" src="js/cross.js"></script>
+
     <script type="text/javascript" src="js/d3.min.js"></script>
+    <script type="text/javascript" src="js/underscore-min.js"></script>
     <script type="text/javascript" src="js/d3.layout.cloud.js"></script>
     <link rel="stylesheet" href="fonts/bariol/bariol.css"/>
 
@@ -31,13 +37,18 @@
   </head>
   <body>
     <script>
-        var data;
+        var data, json_data;
         d3.json("data.json", function(error, json){
             if (error) {
                 return console.warn(error);
             }
             data = json;
+            json_data = json;
+            // draw the word cloud
             visualizeit("AskMen", "AskWomen");
+
+            // draw the cross
+            create_viz("AskMen","AskWomen","cats","dogs");
         })
     </script>
 
@@ -193,7 +204,8 @@
 
         <div class="row top-buffer">
             <div class="col-md-12 center-text">
-                <h1>Cross goes here</h1>
+                <div id="cross">
+                </div>
             </div>
         </div>
 
