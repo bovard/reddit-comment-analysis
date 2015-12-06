@@ -317,9 +317,9 @@ function createClouds(cloud1, cloud2) {
 			.style("stroke", "black")
 			.style("shape-rendering", "crispEdges")
 			.attr("x1", 5)
-			.attr("y1", 280)
+			.attr("y1", 360)
 			.attr("x2", textwidth - 5)
-			.attr("y2", 280);
+			.attr("y2", 360);
 		svg.append("text")
 			.attr("x", textwidth/2)             
 			.attr("y", 380)
@@ -374,6 +374,20 @@ function createClouds(cloud1, cloud2) {
 			.style("font-size", "16px")
 			.style("font-family", "bariol_regularregular")
 			.text("Normalized Count");
+		svg.append("text")
+			.attr("x", textwidth / 2)             
+			.attr("y", cloudheight - startBar + 35)
+			.attr("text-anchor", "middle")
+			.style("font-size", "16px")
+			.style("font-family", "bariol_regularregular")
+			.text("In Each Subreddit");
+		svg.append("text")
+			.attr("x", textwidth / 2)             
+			.attr("y", cloudheight - startBar + 55)
+			.attr("text-anchor", "middle")
+			.style("font-size", "13px")
+			.style("font-family", "bariol_regularregular")
+			.text("0 - low, 100 - high");
 	}
 
 
