@@ -55,7 +55,7 @@ var fill = d3.scale.ordinal()
 var angle = 60;
 var cloudwidth = 450;
 var cloudheight = 550;
-var textwidth = 180;
+var textwidth = 190;
 var cloudfont = "bariol_regularregular"; // e.g. "Impact"
 
 var data1 = d3.entries(data.dataTable);
@@ -89,9 +89,12 @@ function createClouds(cloud1, cloud2) {
 	
 	// Font scale			
 	var fScale = d3.scale.linear()
-		  .domain([minScore, maxScore])
-		  .range([12, 120]);
+			.domain([minScore, maxScore])
+			.range([12, 120]);
 	
+	var yScale = d3.scale.linear()
+			.domain([0, maxScore*1.05])
+			.range([0, 100]);
 		
 	// Title bar
 	var tbar = d3.select("body")
@@ -310,7 +313,39 @@ function createClouds(cloud1, cloud2) {
 			.style("font-size", "16px")
 			.style("font-family", "bariol_regularregular")
 			.text(cloud2 + ' - ' + data["dataTable"][word][cloud2]["ts"]);
-		
+		//Create bars
+		svg.selectAll("rect").remove();
+		var startBar = 95;
+		var barWidth = 20;
+		svg.append("rect")
+			.attr("fill", fill(0))
+			.attr("y", cloudheight - startBar)
+			.attr("height", 0)
+			.transition()
+			.duration(500).ease("linear")
+			.attr("x", textwidth / 3)
+			.attr("y", cloudheight - startBar - yScale(Math.round(data["dataTable"][word][cloud1]["nc"] * 10000) / 100))
+			.attr("width", barWidth)
+			.attr("height", yScale(Math.round(data["dataTable"][word][cloud1]["nc"] * 10000) / 100))
+			.attr("fill-opacity", .6);
+		svg.append("rect")
+			.attr("fill", fill(1))
+			.attr("y", cloudheight - startBar)
+			.attr("height", 0)
+			.transition()
+			.duration(500).ease("linear")
+			.attr("x", textwidth * 2 / 3 - barWidth)
+			.attr("y", cloudheight - startBar - yScale(Math.round(data["dataTable"][word][cloud2]["nc"] * 10000) / 100))
+			.attr("width", barWidth)
+			.attr("height", yScale(Math.round(data["dataTable"][word][cloud2]["nc"] * 10000) / 100))
+			.attr("fill-opacity", .6);
+		svg.append("text")
+			.attr("x", textwidth / 2)             
+			.attr("y", cloudheight - startBar + 15)
+			.attr("text-anchor", "middle")
+			.style("font-size", "16px")
+			.style("font-family", "bariol_regularregular")
+			.text("Normalized Count");
 	}
 
 
