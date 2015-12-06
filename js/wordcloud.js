@@ -54,11 +54,13 @@ function createClouds(cloud1, cloud2) {
 	d3.select("#wcLeftTitle").selectAll("*").remove();
 	d3.select("#wcLeftTitle")	
 		.append("h1")
+		.style("font-family", cloudfont)
 		.text(cloud1)
 
 	d3.select("#wcRightTitle").selectAll("*").remove();
 	d3.select("#wcRightTitle")	
 		.append("h1")
+		.style("font-family", cloudfont)
 		.text(cloud2)
 
 	// First wordcloud
