@@ -1,14 +1,20 @@
-function visualizeit(cloud1, cloud2) {
 
-var fill = d3.scale.category10();
+function visualizeit(cloud1, cloud2) {   
+
+//var fill = d3.scale.category10();
+
+var fill = d3.scale.ordinal()
+  .range(["#3fbcce", "#c026c9" , "#9c1b76", "#2a597c", "#3f1663"]);
 var angle = 60;
 var cloudwidth = 450;
-var cloudheight = 550;
-var textwidth = 180;
-var cloudfont = "Cambria"; // e.g. "Impact", "Serif"
+var cloudheight = 500;
+var textwidth = 190;
+var cloudfont = "bariol_regularregular"; // e.g. "Impact"
+
 
 var data1 = d3.entries(data.dataTable);
-createClouds("AskMen", "AskWomen");
+createClouds(cloud1, cloud2);
+
 
 function createClouds(cloud1, cloud2) {
 	d3.selectAll("svg").remove();
@@ -32,37 +38,56 @@ function createClouds(cloud1, cloud2) {
 	var max1 = d3.max(list1, function(d){ return +d.count})
 	var max2 = d3.max(list2, function(d){ return +d.count})
 	
-	var maxScore = d3.max([max1, max2]);
-	var minScore = d3.min([d3.min(list1, function(d){ return +d.count}), d3.min(list2, function(d){ return +d.count})]);
+	var maxCount = d3.max([max1, max2]);	
+	var minCount = d3.min([d3.min(list1, function(d){ return +d.count}), d3.min(list2, function(d){ return +d.count})]);
 	
 	// Font scale			
 	var fScale = d3.scale.linear()
-		  .domain([minScore, maxScore])
-		  .range([12, 120]);
+			.domain([minCount, maxCount])
+			.range([12, 120]);
 	
-		
+	var yScale = d3.scale.linear()
+			.domain([0, maxCount*1.05])
+			.range([0, 100]);
+	
+	// Header
+	var hbar = d3.select("#wordcloud")
+			.append("svg")
+			.attr("width", textwidth + cloudwidth + cloudwidth)
+			.attr("height", 40)
+			.attr("float", "right")
+			//.style("border", "1px solid black")
+			.attr("id", "options");
+		hbar.append("text")
+			.attr("x", (textwidth + cloudwidth + cloudwidth) / 2) 
+			.attr("y", 30)
+			.attr("text-anchor", "middle") 
+			.style("font-size", "24px")
+			.style("font-weight", "bold")
+			.style("font-family", "bariol_regularregular")
+			.text("We took all the comments in each subreddit and counted how many times a word was used")
 	// Title bar
 	var tbar = d3.select("#wordcloud")
 			.append("svg")
 			.attr("width", textwidth + cloudwidth + cloudwidth)
-			.attr("height", 50)
+			.attr("height", 100)
 			.attr("float", "right")
-			.style("border", "1px solid black")
+			//.style("border", "1px solid black")
 			.attr("id", "options");
 		tbar.append("text")
 			.attr("x", cloudwidth / 2) 
-			.attr("y", 30)
+			.attr("y", 80)
 			.attr("text-anchor", "middle") 
-			.style("font-size", "30px")
+			.style("font-size", "70px")
 			.style("font-weight", "bold")
 			.style("font-family", "bariol_regularregular")
 			.text(cloud1)
 		tbar.append("text")
 			.attr("x", cloudwidth + textwidth + cloudwidth / 2) 
-			.attr("y", 30)
+			.attr("y", 80)
 			.attr("text-anchor", "middle")
 			.style("font-weight", "bold")
-			.style("font-size", "30px")
+			.style("font-size", "70px")
 			.style("font-family", "bariol_regularregular")
 			.text(cloud2)
 				
@@ -79,17 +104,14 @@ function createClouds(cloud1, cloud2) {
 	layout.start();
 	
 	// Details svg
-	var svg = d3.select("body")
+	var svg = d3.select("#wordcloud")
 					.append("svg")
 					.attr("width", textwidth)
 					.attr("height", cloudheight)
 					.attr("float", "right")
 					//.style("border", "1px solid black")
 					.attr("id", "details");
-	setupDetails();
-	
-	function setupDetails() {
-        
+		
 		svg.append("text")
 			.attr("x", textwidth/2)
 			.attr("y", 35)
@@ -112,6 +134,11 @@ function createClouds(cloud1, cloud2) {
 			.attr("y1", 70)
 			.attr("x2", textwidth - 5)
 			.attr("y2", 70);
+	setupDetails();
+	
+	function setupDetails() {
+        
+		
 		svg.append("text")
 			.attr("x", textwidth/2)             
 			.attr("y", cloudheight - 55)
@@ -139,7 +166,7 @@ function createClouds(cloud1, cloud2) {
 	layout = d3.layout.cloud()
 		.size([cloudwidth, cloudheight])
 		.words(list2)
-		.padding(5)
+		.padding(1)
 		.rotate(function() { return ~~(Math.random() * 2) ; }) // * angle
 		.font(cloudfont)
 		.fontSize(function(d) { return fScale(d.count); })
@@ -148,12 +175,12 @@ function createClouds(cloud1, cloud2) {
 	layout.start();
 	
 	function clear_text() {
-		var texts = svg.selectAll("text")
-			texts.remove();
+		svg.selectAll("text").remove();
+		svg.selectAll("line").remove();
 		}
 	
 	function draw(words) {
-		d3.select("body").append("svg")
+		d3.select("#wordcloud").append("svg")
 			.attr("width", layout.size()[0])
 			.attr("height", layout.size()[1])
 			.attr("float", "right")
@@ -166,7 +193,7 @@ function createClouds(cloud1, cloud2) {
 		  .enter().append("text")
 		  
 			.style("font-size", function(d) { return d.size + "px"; })
-			.style("font-family", "Impact")
+			.style("font-family", cloudfont)
 			.style("fill", function(d, i) { return fill(i); })
 			.attr("text-anchor", "middle")
 			
@@ -194,16 +221,26 @@ function createClouds(cloud1, cloud2) {
 					  .duration(500)
 					  .style("opacity",  1);
 				  })
-			.transition()
-			.duration(100);
+			;
 	  }
 	function write(word) {
 		setupDetails();
+		/*
+		svg.append("line")
+			.style("stroke-width", "1px")
+			.style("stroke", "black")
+			.style("shape-rendering", "crispEdges")
+			.attr("x1", 5)
+			.attr("y1", 10)
+			.attr("x2", textwidth - 5)
+			.attr("y2", 10);
+		*/
 		svg.append("text")
+			.style("font-size", "5px")
 			.transition()
-			.duration(500)
+			.duration(500).ease("linear")
 			.attr("x", textwidth/2)             
-			.attr("y", 110)
+			.attr("y", 50)
 			.attr("text-anchor", "middle")
 			.style("font-weight", "bold")
 			.style("font-size", "30px")
@@ -214,9 +251,10 @@ function createClouds(cloud1, cloud2) {
 			.style("stroke", "black")
 			.style("shape-rendering", "crispEdges")
 			.attr("x1", 5)
-			.attr("y1", 135)
+			.attr("y1", 70)
 			.attr("x2", textwidth - 5)
-			.attr("y2", 135);
+			.attr("y2", 70);
+		/*
 		svg.append("text")
 			.attr("x", 5)             
 			.attr("y", 180)
@@ -224,47 +262,104 @@ function createClouds(cloud1, cloud2) {
 			.style("font-size", "16px")
 			.style("font-family", "bariol_regularregular")
 			.text('Normalized count:');
+		*/
 		svg.append("text")
-			.attr("x", 15)             
-			.attr("y", 210)
-			.attr("text-anchor", "left")
+			.attr("x", textwidth/2)             
+			.attr("y", 100)
+			.style("font-size", "0px")
+			.attr("text-anchor", "middle")
+			//.transition().duration(200).ease("linear")
 			.style("font-size", "16px")
 			.style("font-family", "bariol_regularregular")
 			.text(cloud1 +' - ' + Math.round(data["dataTable"][word][cloud1]["nc"] * 10000) / 100); // One decimal place
 		svg.append("text")
-			.attr("x", 15)             
-			.attr("y", 240)
-			.attr("text-anchor", "left")
+			.attr("x", textwidth/2)             
+			.attr("y", 130)
+			.style("font-size", "0px")
+			.attr("text-anchor", "middle")
+			//.transition().duration(200).ease("linear")
 			.style("font-size", "16px")
 			.style("font-family", "bariol_regularregular")
 			.text(cloud2 +' - ' + Math.round(data["dataTable"][word][cloud2]["nc"] * 10000) / 100); // One decimal place
+		svg.append("line")
+			.style("stroke-width", "1px")
+			.style("stroke", "black")
+			.style("shape-rendering", "crispEdges")
+			.attr("x1", 5)
+			.attr("y1", 320)
+			.attr("x2", textwidth - 5)
+			.attr("y2", 320);
 		svg.append("text")
-			.attr("x", 5)             
-			.attr("y", 280)
-			.attr("text-anchor", "left")
+			.attr("x", textwidth/2)             
+			.attr("y", 350)
+			.attr("text-anchor", "middle")
 			.style("font-size", "16px")
 			.style("font-family", "bariol_regularregular")
 			.text('Score in each subreddit:');
 		svg.append("text")
-			.attr("x", 15)             
-			.attr("y", 310)
-			.attr("text-anchor", "left")
+			.attr("x", textwidth/2)             
+			.attr("y", 380)
+			.attr("text-anchor", "middle")
 			.style("font-size", "16px")
 			.style("font-family", "bariol_regularregular")
 			.text(cloud1 +' - ' + data["dataTable"][word][cloud1]["ts"]);
 		svg.append("text")
-			.attr("x", 15)             
-			.attr("y", 340)
-			.attr("text-anchor", "left")
+			.attr("x", textwidth/2)             
+			.attr("y", 410)
+			.attr("text-anchor", "middle")
 			.style("font-size", "16px")
 			.style("font-family", "bariol_regularregular")
 			.text(cloud2 + ' - ' + data["dataTable"][word][cloud2]["ts"]);
-		
+		//Create bars
+		svg.selectAll("rect").remove();
+		var startBar = 260;
+		var barWidth = 20;
+		svg.append("rect")
+			//.attr("fill", fill(0))
+			.attr("y", cloudheight - startBar)
+			.attr("height", 0)
+			.transition()
+			.duration(500).ease("linear")
+			.attr("x", textwidth / 3)
+			.attr("y", cloudheight - startBar - yScale(Math.round(data["dataTable"][word][cloud1]["nc"] * 10000) / 100))
+			.attr("width", barWidth)
+			.attr("height", yScale(Math.round(data["dataTable"][word][cloud1]["nc"] * 10000) / 100));
+		svg.append("rect")
+			//.attr("fill", fill(1))
+			.attr("y", cloudheight - startBar)
+			.attr("height", 0)
+			.transition()
+			.duration(500).ease("linear")
+			.attr("x", textwidth * 2 / 3 - barWidth)
+			.attr("y", cloudheight - startBar - yScale(Math.round(data["dataTable"][word][cloud2]["nc"] * 10000) / 100))
+			.attr("width", barWidth)
+			.attr("height", yScale(Math.round(data["dataTable"][word][cloud2]["nc"] * 10000) / 100));
+		svg.append("text")
+			.attr("x", textwidth / 2)             
+			.attr("y", cloudheight - startBar + 15)
+			.attr("text-anchor", "middle")
+			.style("font-size", "16px")
+			.style("font-family", "bariol_regularregular")
+			.text("Normalized Count");
+		svg.append("text")
+			.attr("x", textwidth / 2)             
+			.attr("y", cloudheight - startBar + 35)
+			.attr("text-anchor", "middle")
+			.style("font-size", "16px")
+			.style("font-family", "bariol_regularregular")
+			.text("In Each Subreddit");
+		svg.append("text")
+			.attr("x", textwidth / 2)             
+			.attr("y", cloudheight - startBar + 55)
+			.attr("text-anchor", "middle")
+			.style("font-size", "13px")
+			.style("font-family", "bariol_regularregular")
+			.text("0 - low, 100 - high");
 	}
 
 
 	// options bar
-	
+	/*
 	var bar = d3.select("body")
 			.append("svg")
 			.attr("width", textwidth + cloudwidth + cloudwidth)
@@ -312,7 +407,11 @@ function createClouds(cloud1, cloud2) {
 			.on("click", function(d) {
 				createClouds("DotA2", "leagueoflegends");
 				});
-
+	*/
 	
 }
+
+
 }
+
+
