@@ -9,8 +9,29 @@
 </head>
 
 <body>
-
-
+<div id="main"></div>
+<div id="option">
+    <input name="updateButton" 
+           type="button" 
+           value="AskMen vs. AskWomen" 
+           onclick="visualizeit('AskMen', 'AskWomen')" 
+    />
+	<input name="updateButton" 
+           type="button" 
+           value="cats vs. dogs" 
+           onclick="visualizeit('cats', 'dogs')" 
+    />
+	<input name="updateButton" 
+           type="button" 
+           value="nfl vs. soccer" 
+           onclick="visualizeit('nfl', 'soccer')" 
+    />
+	<input name="updateButton" 
+           type="button" 
+           value="DotA2 vs. leagueoflegends" 
+           onclick="visualizeit('DotA2', 'leagueoflegends')" 
+    />
+</div>
 
 
 <script>
@@ -22,20 +43,24 @@ d3.json("../newdata.json", function(error, json){
         return console.warn(error);
     }
 	data = json;
-	visualizeit();
+	visualizeit("AskMen", "AskWomen");
 })
 
 function visualizeit(cloud1, cloud2) {   
 
-var fill = d3.scale.category10();
+//var fill = d3.scale.category10();
+
+var fill = d3.scale.ordinal()
+  .range(["#3fbcce", "#c026c9" , "#9c1b76", "#2a597c", "#3f1663"]);
 var angle = 60;
 var cloudwidth = 450;
 var cloudheight = 550;
 var textwidth = 180;
-var cloudfont = "Cambria"; // e.g. "Impact", "Serif"
+var cloudfont = "bariol_regularregular"; // e.g. "Impact"
 
 var data1 = d3.entries(data.dataTable);
-createClouds("AskMen", "AskWomen");
+createClouds(cloud1, cloud2);
+
 
 function createClouds(cloud1, cloud2) {
 	d3.selectAll("svg").remove();
@@ -72,24 +97,24 @@ function createClouds(cloud1, cloud2) {
 	var tbar = d3.select("body")
 			.append("svg")
 			.attr("width", textwidth + cloudwidth + cloudwidth)
-			.attr("height", 50)
+			.attr("height", 100)
 			.attr("float", "right")
-			.style("border", "1px solid black")
+			//.style("border", "1px solid black")
 			.attr("id", "options");
 		tbar.append("text")
 			.attr("x", cloudwidth / 2) 
-			.attr("y", 30)
+			.attr("y", 80)
 			.attr("text-anchor", "middle") 
-			.style("font-size", "30px")
+			.style("font-size", "70px")
 			.style("font-weight", "bold")
 			.style("font-family", "bariol_regularregular")
 			.text(cloud1)
 		tbar.append("text")
 			.attr("x", cloudwidth + textwidth + cloudwidth / 2) 
-			.attr("y", 30)
+			.attr("y", 80)
 			.attr("text-anchor", "middle")
 			.style("font-weight", "bold")
-			.style("font-size", "30px")
+			.style("font-size", "70px")
 			.style("font-family", "bariol_regularregular")
 			.text(cloud2)
 				
@@ -193,7 +218,7 @@ function createClouds(cloud1, cloud2) {
 		  .enter().append("text")
 		  
 			.style("font-size", function(d) { return d.size + "px"; })
-			.style("font-family", "Impact")
+			.style("font-family", cloudfont)
 			.style("fill", function(d, i) { return fill(i); })
 			.attr("text-anchor", "middle")
 			
@@ -221,8 +246,7 @@ function createClouds(cloud1, cloud2) {
 					  .duration(500)
 					  .style("opacity",  1);
 				  })
-			.transition()
-			.duration(100);
+			;
 	  }
 	function write(word) {
 		setupDetails();
@@ -291,7 +315,7 @@ function createClouds(cloud1, cloud2) {
 
 
 	// options bar
-	
+	/*
 	var bar = d3.select("body")
 			.append("svg")
 			.attr("width", textwidth + cloudwidth + cloudwidth)
@@ -339,7 +363,7 @@ function createClouds(cloud1, cloud2) {
 			.on("click", function(d) {
 				createClouds("DotA2", "leagueoflegends");
 				});
-
+	*/
 	
 }
 
