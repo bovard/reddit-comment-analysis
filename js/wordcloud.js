@@ -49,48 +49,17 @@ function createClouds(cloud1, cloud2) {
 	var yScale = d3.scale.linear()
 			.domain([0, maxCount*1.05])
 			.range([0, 100]);
-	
-	// Header
-	var hbar = d3.select("#wordcloud")
-			.append("svg")
-			.attr("width", textwidth + cloudwidth + cloudwidth)
-			.attr("height", 40)
-			.attr("float", "right")
-			//.style("border", "1px solid black")
-			.attr("id", "options");
-		hbar.append("text")
-			.attr("x", (textwidth + cloudwidth + cloudwidth) / 2) 
-			.attr("y", 30)
-			.attr("text-anchor", "middle") 
-			.style("font-size", "24px")
-			.style("font-weight", "bold")
-			.style("font-family", "bariol_regularregular")
-			.text("We took all the comments in each subreddit and counted how many times a word was used")
 	// Title bar
-	var tbar = d3.select("#wordcloud")
-			.append("svg")
-			.attr("width", textwidth + cloudwidth + cloudwidth)
-			.attr("height", 100)
-			.attr("float", "right")
-			//.style("border", "1px solid black")
-			.attr("id", "options");
-		tbar.append("text")
-			.attr("x", cloudwidth / 2) 
-			.attr("y", 80)
-			.attr("text-anchor", "middle") 
-			.style("font-size", "70px")
-			.style("font-weight", "bold")
-			.style("font-family", "bariol_regularregular")
-			.text(cloud1)
-		tbar.append("text")
-			.attr("x", cloudwidth + textwidth + cloudwidth / 2) 
-			.attr("y", 80)
-			.attr("text-anchor", "middle")
-			.style("font-weight", "bold")
-			.style("font-size", "70px")
-			.style("font-family", "bariol_regularregular")
-			.text(cloud2)
-				
+	d3.select("#wcLeftTitle").selectAll("*").remove();
+	d3.select("#wcLeftTitle")	
+		.append("h1")
+		.text(cloud1)
+
+	d3.select("#wcRightTitle").selectAll("*").remove();
+	d3.select("#wcRightTitle")	
+		.append("h1")
+		.text(cloud2)
+
 	// First wordcloud
 	var layout = d3.layout.cloud()
 		.size([cloudwidth, cloudheight])
@@ -99,12 +68,13 @@ function createClouds(cloud1, cloud2) {
 		.rotate(function() { return ~~(Math.random() * 2) ; }) // * angle
 		.font(cloudfont)
 		.fontSize(function(d) { return fScale(d.count); })
-		.on("end", draw);
+		.on("end", function(d) { draw(d, "#wcLeftCloud")});
 	
 	layout.start();
 	
 	// Details svg
-	var svg = d3.select("#wordcloud")
+	d3.select("#wcCenterText").selectAll("*").remove();
+	var svg = d3.select("#wcCenterText")
 					.append("svg")
 					.attr("width", textwidth)
 					.attr("height", cloudheight)
@@ -170,7 +140,7 @@ function createClouds(cloud1, cloud2) {
 		.rotate(function() { return ~~(Math.random() * 2) ; }) // * angle
 		.font(cloudfont)
 		.fontSize(function(d) { return fScale(d.count); })
-		.on("end", draw);
+		.on("end", function(d) {draw(d, "#wcRightCloud")});
 	
 	layout.start();
 	
@@ -179,8 +149,9 @@ function createClouds(cloud1, cloud2) {
 		svg.selectAll("line").remove();
 		}
 	
-	function draw(words) {
-		d3.select("#wordcloud").append("svg")
+	function draw(words, container) {
+		d3.select(container).selectAll("*").remove();
+		d3.select(container).append("svg")
 			.attr("width", layout.size()[0])
 			.attr("height", layout.size()[1])
 			.attr("float", "right")
