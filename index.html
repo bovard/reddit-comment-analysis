@@ -31,17 +31,14 @@
   </head>
   <body>
     <script>
-
         var data;
         d3.json("data.json", function(error, json){
-        //d3.json("data.json", function(error, json){
             if (error) {
                 return console.warn(error);
             }
             data = json;
             visualizeit();
         })
-
     </script>
 
     <div class="container">
