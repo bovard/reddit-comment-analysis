@@ -4,7 +4,8 @@ function visualizeit(cloud1, cloud2) {
 //var fill = d3.scale.category10();
 
 var fill = d3.scale.ordinal()
-  .range(["#3fbcce", "#c026c9" , "#9c1b76", "#2a597c", "#3f1663"]);
+  .range(["#FF4500",  "#00B060", "#053D64", "#0A64A4","#FF9000"]);
+  // orange,  green, dark blue,  bright blue, light orange
 var angle = 60;
 var cloudwidth = 450;
 var cloudheight = 500;
