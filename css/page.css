@@ -1,9 +1,11 @@
 .top-buffer { margin-top:50px; }
+.start-buffer { margin-top:250px; }
+.first-buffer { margin-top:150px; }
 
 .center-text {text-align: center;}
 
 .word-cloud-font {
-	
+
 }
 
 h1 {font-size: 4em;}
