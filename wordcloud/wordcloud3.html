@@ -142,10 +142,7 @@ function createClouds(cloud1, cloud2) {
 					.attr("float", "right")
 					//.style("border", "1px solid black")
 					.attr("id", "details");
-	setupDetails();
-	
-	function setupDetails() {
-        
+		
 		svg.append("text")
 			.attr("x", textwidth/2)
 			.attr("y", 35)
@@ -168,6 +165,11 @@ function createClouds(cloud1, cloud2) {
 			.attr("y1", 70)
 			.attr("x2", textwidth - 5)
 			.attr("y2", 70);
+	setupDetails();
+	
+	function setupDetails() {
+        
+		
 		svg.append("text")
 			.attr("x", textwidth/2)             
 			.attr("y", cloudheight - 55)
@@ -195,7 +197,7 @@ function createClouds(cloud1, cloud2) {
 	layout = d3.layout.cloud()
 		.size([cloudwidth, cloudheight])
 		.words(list2)
-		.padding(5)
+		.padding(1)
 		.rotate(function() { return ~~(Math.random() * 2) ; }) // * angle
 		.font(cloudfont)
 		.fontSize(function(d) { return fScale(d.count); })
@@ -204,8 +206,8 @@ function createClouds(cloud1, cloud2) {
 	layout.start();
 	
 	function clear_text() {
-		var texts = svg.selectAll("text")
-			texts.remove();
+		svg.selectAll("text").remove();
+		svg.selectAll("line").remove();
 		}
 	
 	function draw(words) {
@@ -254,11 +256,22 @@ function createClouds(cloud1, cloud2) {
 	  }
 	function write(word) {
 		setupDetails();
+		/*
+		svg.append("line")
+			.style("stroke-width", "1px")
+			.style("stroke", "black")
+			.style("shape-rendering", "crispEdges")
+			.attr("x1", 5)
+			.attr("y1", 10)
+			.attr("x2", textwidth - 5)
+			.attr("y2", 10);
+		*/
 		svg.append("text")
+			.style("font-size", "5px")
 			.transition()
-			.duration(500)
+			.duration(500).ease("linear")
 			.attr("x", textwidth/2)             
-			.attr("y", 110)
+			.attr("y", 50)
 			.attr("text-anchor", "middle")
 			.style("font-weight", "bold")
 			.style("font-size", "30px")
@@ -269,9 +282,9 @@ function createClouds(cloud1, cloud2) {
 			.style("stroke", "black")
 			.style("shape-rendering", "crispEdges")
 			.attr("x1", 5)
-			.attr("y1", 135)
+			.attr("y1", 70)
 			.attr("x2", textwidth - 5)
-			.attr("y2", 135);
+			.attr("y2", 70);
 		/*
 		svg.append("text")
 			.attr("x", 5)             
@@ -283,15 +296,19 @@ function createClouds(cloud1, cloud2) {
 		*/
 		svg.append("text")
 			.attr("x", textwidth/2)             
-			.attr("y", 160)
+			.attr("y", 100)
+			.style("font-size", "0px")
 			.attr("text-anchor", "middle")
+			//.transition().duration(200).ease("linear")
 			.style("font-size", "16px")
 			.style("font-family", "bariol_regularregular")
 			.text(cloud1 +' - ' + Math.round(data["dataTable"][word][cloud1]["nc"] * 10000) / 100); // One decimal place
 		svg.append("text")
 			.attr("x", textwidth/2)             
-			.attr("y", 190)
+			.attr("y", 130)
+			.style("font-size", "0px")
 			.attr("text-anchor", "middle")
+			//.transition().duration(200).ease("linear")
 			.style("font-size", "16px")
 			.style("font-family", "bariol_regularregular")
 			.text(cloud2 +' - ' + Math.round(data["dataTable"][word][cloud2]["nc"] * 10000) / 100); // One decimal place
@@ -300,9 +317,9 @@ function createClouds(cloud1, cloud2) {
 			.style("stroke", "black")
 			.style("shape-rendering", "crispEdges")
 			.attr("x1", 5)
-			.attr("y1", 330)
+			.attr("y1", 280)
 			.attr("x2", textwidth - 5)
-			.attr("y2", 330);
+			.attr("y2", 280);
 		svg.append("text")
 			.attr("x", textwidth/2)             
 			.attr("y", 380)
@@ -326,7 +343,7 @@ function createClouds(cloud1, cloud2) {
 			.text(cloud2 + ' - ' + data["dataTable"][word][cloud2]["ts"]);
 		//Create bars
 		svg.selectAll("rect").remove();
-		var startBar = 250;
+		var startBar = 300;
 		var barWidth = 20;
 		svg.append("rect")
 			.attr("fill", fill(0))
