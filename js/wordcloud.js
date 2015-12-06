@@ -1,50 +1,3 @@
-<!DOCTYPE html>
-<head>
-
-    <script type="text/javascript" src="scripts/d3.min.js"></script>
-	<script type="text/javascript" src="scripts/d3.layout.cloud.js"></script>
-    <link rel="stylesheet" href="fonts/bariol/bariol.css"/>
-    <link rel="stylesheet" href="styles/style.css"/>
-
-</head>
-
-<body>
-<div id="main"></div>
-<div id="option">
-    <input name="updateButton" 
-           type="button" 
-           value="AskMen vs. AskWomen" 
-           onclick="visualizeit('AskMen', 'AskWomen')" 
-    />
-	<input name="updateButton" 
-           type="button" 
-           value="cats vs. dogs" 
-           onclick="visualizeit('cats', 'dogs')" 
-    />
-	<input name="updateButton" 
-           type="button" 
-           value="nfl vs. soccer" 
-           onclick="visualizeit('nfl', 'soccer')" 
-    />
-	<input name="updateButton" 
-           type="button" 
-           value="DotA2 vs. leagueoflegends" 
-           onclick="visualizeit('DotA2', 'leagueoflegends')" 
-    />
-</div>
-
-
-<script>
-
-var data;
-d3.json("../newdata.json", function(error, json){
-//d3.json("data.json", function(error, json){
-	if (error) {
-        return console.warn(error);
-    }
-	data = json;
-	visualizeit("AskMen", "AskWomen");
-})
 
 function visualizeit(cloud1, cloud2) {   
 
@@ -57,6 +10,7 @@ var cloudwidth = 450;
 var cloudheight = 500;
 var textwidth = 190;
 var cloudfont = "bariol_regularregular"; // e.g. "Impact"
+
 
 var data1 = d3.entries(data.dataTable);
 createClouds(cloud1, cloud2);
@@ -97,7 +51,7 @@ function createClouds(cloud1, cloud2) {
 			.range([0, 100]);
 	
 	// Header
-	var hbar = d3.select("body")
+	var hbar = d3.select("#wordcloud")
 			.append("svg")
 			.attr("width", textwidth + cloudwidth + cloudwidth)
 			.attr("height", 40)
@@ -113,7 +67,7 @@ function createClouds(cloud1, cloud2) {
 			.style("font-family", "bariol_regularregular")
 			.text("We took all the comments in each subreddit and counted how many times a word was used")
 	// Title bar
-	var tbar = d3.select("body")
+	var tbar = d3.select("#wordcloud")
 			.append("svg")
 			.attr("width", textwidth + cloudwidth + cloudwidth)
 			.attr("height", 100)
@@ -150,7 +104,7 @@ function createClouds(cloud1, cloud2) {
 	layout.start();
 	
 	// Details svg
-	var svg = d3.select("body")
+	var svg = d3.select("#wordcloud")
 					.append("svg")
 					.attr("width", textwidth)
 					.attr("height", cloudheight)
@@ -226,7 +180,7 @@ function createClouds(cloud1, cloud2) {
 		}
 	
 	function draw(words) {
-		d3.select("body").append("svg")
+		d3.select("#wordcloud").append("svg")
 			.attr("width", layout.size()[0])
 			.attr("height", layout.size()[1])
 			.attr("float", "right")
@@ -459,8 +413,5 @@ function createClouds(cloud1, cloud2) {
 
 
 }
-</script>
 
-</body>
 
-</html>
