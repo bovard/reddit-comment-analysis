@@ -5,8 +5,26 @@ function Clear_All() {
     var row_data = []}
 
 
+var crossLeft = "AskMen";
+var crossRight = "AskWomen";
+var crossTop = "cats";
+var crossBottom = "dogs";
+
+var updateSide = function(left, right) {
+    crossLeft = left;
+    crossRight = right;
+    create_viz(crossLeft, crossRight, crossTop, crossBottom);
+};
+
+var updateTop = function(top, bottom) {
+    crossTop = top;
+    crossBottom = bottom;
+    create_viz(crossLeft, crossRight, crossTop, crossBottom);
+};
 
 var create_viz = function(leftCategory, rightCategory, topCategory, bottomCategory) {
+    d3.select("#cross").selectAll("*").remove();
+
     //Set delay to allow json to load
 
     //Add clear All button
@@ -14,15 +32,6 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
     //.attr("type", "button")
     //.attr("value", "Clear All")
     //.attr("onclick", "Clear_All()");
-
-    //Variable to hold autocomplete options
-    var keys;
-
-    //Load words as options from CSV
-    d3.csv("words.csv",function (csv) {
-        keys=csv;
-        start();
-    });
 
 
     //Call back for when user selects an option
@@ -36,38 +45,19 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
         update_mid_text(d["State"], bottomCategory, top_padding + side_width + side_height);
     }
 
-    //Setup and render the autocomplete
-    function start() {
-        var mc = autocomplete(document.getElementById('test'))
-            .keys(keys)
-            .dataField("State")
-            .placeHolder("Search Words - Start typing here")
-            .width(750)
-            .height(500)
-            .onSelected(onSelect)
-            .render();
-    }
-
     //Change these variables to adjust size of viz
-    var top_padding = 50;
-    var side_padding = 50;
-    var side_height = 400;
+    var top_padding = 0;
+    var side_padding = 0;
+    var side_height = 600;
     var side_width = 200;
 
 
     //This data is used to create the rects in the cross
     //No need to change anything, it feeds off of the above variables
     var rectangleData = [
-        { "rx": side_padding, "ry": top_padding
-            + side_width, "height": side_height, "width": side_width},
-        { "rx": side_padding + side_width, "ry": top_padding,
-            "height": side_width, "width": side_height},
         { "rx": side_padding + side_width, "ry": top_padding
-            + side_width, "height": side_height, "width": side_height},
-        { "rx": side_padding + side_width + side_height, "ry": top_padding
-            + side_width, "height": side_height, "width": side_width},
-        { "rx": side_padding + side_width, "ry": top_padding
-            + side_width + side_height, "height": side_width, "width": side_height}];
+            + side_width, "height": side_height, "width": side_height}]
+
 
 
     //Create the axis of the center square using above variables
@@ -99,8 +89,8 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
 
     //Create svg holder for viz
     var svgContainer = d3.select("#cross").append("svg")
-        .attr("width", 2000)
-        .attr("height", 1000);
+        .attr("width", 1100)
+        .attr("height", 900);
 
     //Create tooltip variables
     var tooltip = d3.select("body").append("div")
@@ -250,248 +240,6 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
             .style("font-family", "bariol_regularregular")
             .text(bottomCategory);}
 
-    //Add title for Left/Right subreddit selection options
-    svgContainer.append("text")
-        .attr("x", side_padding + side_width + side_height+300)
-        .attr("y", top_padding + side_width + 15)
-        .attr("text-anchor", "left")
-        .style("font-size", "24px")
-        .style("font-weight", "bold")
-        .style("font-family", "bariol_regularregular")
-        .text('Left/Right Subreddits');
-
-    //Add in Left/Right selection options
-    svgContainer.append("text")
-        .attr("x", side_padding + side_width + side_height+300)
-        .attr("y", top_padding + side_width + 50)
-        .attr("text-anchor", "left")
-        .style("font-size", "20px")
-        .style("font-family", "bariol_regularregular")
-        .text('Cats vs. Dogs')
-        .on("click", function() {
-            if (topCategory === 'cats') {
-                alert('Already selected, please choose again!');
-                return;
-            }
-            if (leftCategory === 'cats') {
-                return;
-            }
-            Clear_All();
-            console.log(json_data);
-            leftCategory = 'cats';
-            rightCategory = 'dogs';
-            cover_left();
-            left_text();
-            cover_right();
-            right_text();
-            var the_top_ten = get_top_ten(json_data, 'subredditTopWords', leftCategory, rightCategory);
-            var row_data = get_row_data([],the_top_ten,rightCategory,leftCategory,topCategory,bottomCategory);
-            //var all_data = get_row_data([],json_data["allWords"],rightCategory,leftCategory,topCategory,bottomCategory)
-            add_circles(row_data, radiusScale, circleScale, colorScale);});
-
-    svgContainer.append("text")
-        .attr("x", side_padding + side_width + side_height+300)
-        .attr("y", top_padding + side_width + 80)
-        .attr("text-anchor", "left")
-        .style("font-size", "20px")
-        .style("font-family", "bariol_regularregular")
-        .text('AskMen vs. AskWomen')
-        .on("click", function() {
-            if (topCategory === 'AskMen') {
-                alert('Already selected, please choose again!');
-                return;
-            }
-            if (leftCategory === 'AskMen') {
-                return;
-            }
-            Clear_All();
-            console.log(json_data);
-            leftCategory = 'AskMen';
-            rightCategory = 'AskWomen';
-            cover_left();
-            left_text();
-            cover_right();
-            right_text();
-            var the_top_ten = get_top_ten(json_data, 'subredditTopWords', leftCategory, rightCategory);
-            var row_data = get_row_data([],the_top_ten,rightCategory,leftCategory,topCategory,bottomCategory);
-            add_circles(row_data, radiusScale, circleScale, colorScale);});
-
-
-    svgContainer.append("text")
-        .attr("x", side_padding + side_width + side_height+300)
-        .attr("y", top_padding + side_width + 110)
-        .attr("text-anchor", "left")
-        .style("font-size", "20px")
-        .style("font-family", "bariol_regularregular")
-        .text('nfl vs. soccer')
-        .on("click", function() {
-            if (topCategory === 'nfl') {
-                alert('Already selected, please choose again!');
-                return;
-            }
-            if (leftCategory === 'nfl') {
-                return;
-            }
-            Clear_All();
-            console.log(json_data);
-            leftCategory = 'nfl';
-            rightCategory = 'soccer';
-            cover_left();
-            left_text();
-            cover_right();
-            right_text();
-            var the_top_ten = get_top_ten(json_data, 'subredditTopWords', leftCategory, rightCategory);
-            var row_data = get_row_data([],the_top_ten,rightCategory,leftCategory,topCategory,bottomCategory);
-            add_circles(row_data, radiusScale, circleScale, colorScale);});
-
-    svgContainer.append("text")
-        .attr("x", side_padding + side_width + side_height+300)
-        .attr("y", top_padding + side_width + 140)
-        .attr("text-anchor", "left")
-        .style("font-size", "20px")
-        .style("font-family", "bariol_regularregular")
-        .text('DotA2 vs. leagueoflegends')
-        .on("click", function() {
-            if (topCategory === 'DotA2') {
-                alert('Already selected, please choose again!');
-                return;
-            }
-            if (leftCategory === 'DotA2') {
-                return;
-            }
-            Clear_All();
-            console.log(json_data);
-            leftCategory = 'DotA2';
-            rightCategory = 'leagueoflegends';
-            cover_left();
-            left_text();
-            cover_right();
-            right_text();
-            var the_top_ten = get_top_ten(json_data, 'subredditTopWords', leftCategory, rightCategory);
-            var row_data = get_row_data([],the_top_ten,rightCategory,leftCategory,topCategory,bottomCategory);
-            add_circles(row_data, radiusScale, circleScale, colorScale);});
-
-    //Add title for Left/Right subreddit selection options
-    svgContainer.append("text")
-        .attr("x", side_padding + side_width + side_height+300)
-        .attr("y", top_padding + side_width + 210)
-        .attr("text-anchor", "left")
-        .style("font-size", "24px")
-        .style("font-weight", "bold")
-        .style("font-family", "bariol_regularregular")
-        .text('Top/Bottom Subreddits');
-
-    //Add Top/Bottom selection options
-    svgContainer.append("text")
-        .attr("x", side_padding + side_width + side_height+300)
-        .attr("y", top_padding + side_width + 255)
-        .attr("text-anchor", "left")
-        .style("font-size", "20px")
-        .style("font-family", "bariol_regularregular")
-        .text('Cats vs. Dogs')
-        .on("click", function() {
-            if (leftCategory === 'cats') {
-                alert('Already selected, please choose again!');
-                return;
-            }
-            if (topCategory === 'cats') {
-                return;
-            }
-            Clear_All();
-            console.log(json_data);
-            topCategory = 'cats';
-            bottomCategory = 'dogs';
-            cover_top();
-            top_text();
-            cover_bottom();
-            bottom_text();
-            var the_top_ten = get_top_ten(json_data, 'subredditTopWords', topCategory, bottomCategory);
-            var row_data = get_row_data([],the_top_ten,rightCategory,leftCategory,topCategory,bottomCategory);
-            add_circles(row_data, radiusScale, circleScale, colorScale);});
-
-
-    svgContainer.append("text")
-        .attr("x", side_padding + side_width + side_height+300)
-        .attr("y", top_padding + side_width + 285)
-        .attr("text-anchor", "left")
-        .style("font-size", "20px")
-        .style("font-family", "bariol_regularregular")
-        .text('AskMen vs. AskWomen')
-        .on("click", function() {
-            if (leftCategory === 'AskMen') {
-                alert('Already selected, please choose again!');
-                return;
-            }
-            if (topCategory === 'AskMen') {
-                return;
-            }
-            Clear_All();
-            console.log(json_data);
-            topCategory = 'AskMen';
-            bottomCategory = 'AskWomen';
-            cover_top();
-            top_text();
-            cover_bottom();
-            bottom_text();
-            var the_top_ten = get_top_ten(json_data, 'subredditTopWords', topCategory, bottomCategory);
-            var row_data = get_row_data([],the_top_ten,rightCategory,leftCategory,topCategory,bottomCategory);
-            add_circles(row_data, radiusScale, circleScale, colorScale);});
-
-
-    svgContainer.append("text")
-        .attr("x", side_padding + side_width + side_height+300)
-        .attr("y", top_padding + side_width + 315)
-        .attr("text-anchor", "left")
-        .style("font-size", "20px")
-        .style("font-family", "bariol_regularregular")
-        .text('nfl vs. soccer')
-        .on("click", function() {
-            if (leftCategory === 'nfl') {
-                alert('Already selected, please choose again!');
-                return;
-            }
-            if (topCategory === 'nfl') {
-                return;
-            }
-            Clear_All();
-            console.log(json_data);
-            topCategory = 'nfl';
-            bottomCategory = 'soccer';
-            cover_top();
-            top_text();
-            cover_bottom();
-            bottom_text();
-            var the_top_ten = get_top_ten(json_data, 'subredditTopWords', topCategory, bottomCategory);
-            var row_data = get_row_data([],the_top_ten,rightCategory,leftCategory,topCategory,bottomCategory);
-            add_circles(row_data, radiusScale, circleScale, colorScale);});
-
-    svgContainer.append("text")
-        .attr("x", side_padding + side_width + side_height+300)
-        .attr("y", top_padding + side_width + 345)
-        .attr("text-anchor", "left")
-        .style("font-size", "20px")
-        .style("font-family", "bariol_regularregular")
-        .text('DotA2 vs. leagueoflegends')
-        .on("click", function() {
-            if (leftCategory === 'DotA2') {
-                alert('Already selected, please choose again!');
-                return;
-            }
-            if (topCategory === 'DotA2') {
-                return;
-            }
-            Clear_All();
-            console.log(json_data);
-            topCategory = 'DotA2';
-            bottomCategory = 'leagueoflegends';
-            cover_top();
-            top_text();
-            cover_bottom();
-            bottom_text();
-            var the_top_ten = get_top_ten(json_data, 'subredditTopWords', topCategory, bottomCategory);
-            console.log(the_top_ten);
-            var row_data = get_row_data([],the_top_ten,rightCategory,leftCategory,topCategory,bottomCategory);
-            add_circles(row_data, radiusScale, circleScale, colorScale);});
 
     //Function that updates side panels when word is selected
     function update_side_text(word, direction, side_padding1) {
@@ -620,8 +368,9 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
                 return circleScaler(d[5] - d[7]);
             })
             .attr("r", function(d) {
-                console.log(radiusScaler(d[9]));
-                return radiusScaler(d[9]);
+                return 10;
+                //console.log(radiusScaler(d[9]));
+                //return radiusScaler(d[9]);
             })
             .attr("fill", ("r", function(d) {
                 return colorScaler(d[10]);
@@ -652,8 +401,10 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
 
     //Get top ten words for primary subreddit comparison
     function get_top_ten(the_data, holder, sub_one, sub_two) {
-        var one_top = the_data["subredditTopWords"][sub_one].slice(0,11);
-        var two_top = the_data["subredditTopWords"][sub_two].slice(0,11);
+        var one_top = the_data["subredditTopWords"][sub_one].slice(0,101);
+        var two_top = the_data["subredditTopWords"][sub_two].slice(0,101);
+        //var one_top = the_data["subredditTopWords"][sub_one].slice(0,11);
+        //var two_top = the_data["subredditTopWords"][sub_two].slice(0,11);
         var combined = _.union(one_top, two_top);
         console.log(combined);
         return combined;
