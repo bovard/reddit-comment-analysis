@@ -255,7 +255,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
         //Add word
         left_text();
         right_text();
-        var side_score = json_data["dataTable"][word][direction]["ns"] * 10
+        var side_score = json_data["dataTable"][word][direction]["ns"] * 100
         svgContainer.append("text")
             .attr("x", side_padding1 + 100)
             .attr("y", side_padding + side_width + (side_height/2) + 30)
@@ -276,7 +276,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
             .style("fill", "white");
         top_text();
         bottom_text();
-        var top_score = json_data["dataTable"][word][direction]["ns"] * 10
+        var top_score = json_data["dataTable"][word][direction]["ns"] * 100
         svgContainer.append("text")
             .attr("x", side_padding + side_width + 375)
             .attr("y", top_padding + top_padding1 + 180)
