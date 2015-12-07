@@ -48,7 +48,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
     //Change these variables to adjust size of viz
     var top_padding = 0;
     var side_padding = 0;
-    var side_height = 600;
+    var side_height = 500;
     var side_width = 200;
 
 
@@ -89,8 +89,8 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
 
     //Create svg holder for viz
     var svgContainer = d3.select("#cross").append("svg")
-        .attr("width", 1100)
-        .attr("height", 900);
+        .attr("width", 900)
+        .attr("height", 700);
 
     //Create tooltip variables
     var tooltip = d3.select("body").append("div")
