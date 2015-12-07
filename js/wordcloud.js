@@ -3,14 +3,12 @@ function visualizeit(cloud1, cloud2) {
 
 //var fill = d3.scale.category10();
 
-var fill = d3.scale.ordinal()
-  .range(["#FF4500",  "#00B060", "#053D64", "#0A64A4","#FF9000"]);
-  // orange,  green, dark blue,  bright blue, light orange
+
 var angle = 60;
 var cloudwidth = 450;
 var cloudheight = 500;
 var textwidth = 190;
-var cloudfont = "bariol_regularregular"; // e.g. "Impact"
+var cloudfont = "helvetica"; //"bariol_regularregular"; // e.g. 
 
 
 var data1 = d3.entries(data.dataTable);
@@ -42,6 +40,13 @@ function createClouds(cloud1, cloud2) {
 	var maxCount = d3.max([max1, max2]);	
 	var minCount = d3.min([d3.min(list1, function(d){ return +d.count}), d3.min(list2, function(d){ return +d.count})]);
 	
+	console.log(minCount, maxCount)
+	var fill = d3.scale.linear()
+		.domain([minCount,  maxCount]) //d3.mean([minCount, minCount, maxCount])
+		.range(["#ff8b60",  "#FF4500"]);
+		// cross: ["#9494ff", "#ffffff", "#ff8b60"]
+		// orange #FF4500,  green #00B060, dark blue "#053D64",  bright blue #0A64A4, light orange "#FF9000"
+	
 	// Font scale			
 	var fScale = d3.scale.linear()
 			.domain([minCount, maxCount])
@@ -54,12 +59,14 @@ function createClouds(cloud1, cloud2) {
 	d3.select("#wcLeftTitle").selectAll("*").remove();
 	d3.select("#wcLeftTitle")	
 		.append("h1")
+		.style("font-weight", "bold")	
 		.style("font-family", cloudfont)
 		.text(cloud1)
 
 	d3.select("#wcRightTitle").selectAll("*").remove();
 	d3.select("#wcRightTitle")	
 		.append("h1")
+		.style("font-weight", "bold")
 		.style("font-family", cloudfont)
 		.text(cloud2)
 
@@ -165,10 +172,10 @@ function createClouds(cloud1, cloud2) {
 		  .selectAll("text")
 			.data(words)
 		  .enter().append("text")
-		  
 			.style("font-size", function(d) { return d.size + "px"; })
 			.style("font-family", cloudfont)
-			.style("fill", function(d, i) { return fill(i); })
+			.style("fill", function(d) { return fill(d.size);})
+			//.style("fill", function(d, i) { return fill(i); })
 			.attr("text-anchor", "middle")
 			
 			.attr("transform", function(d) {
