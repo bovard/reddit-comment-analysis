@@ -90,7 +90,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
     //Create svg holder for viz
     var svgContainer = d3.select("#cross").append("svg")
         .attr("width", 900)
-        .attr("height", 700);
+        .attr("height", 900);
 
     //Create tooltip variables
     var tooltip = d3.select("body").append("div")
