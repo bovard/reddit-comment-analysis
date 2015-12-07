@@ -247,9 +247,9 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
     function update_side_text(word, direction, side_padding1) {
         //Hide old data
         svgContainer.append("rect")
-            .attr("x", side_padding1 + 4)
+            .attr("x", side_padding1 + 14)
             .attr("y", top_padding + side_width + 50)
-            .attr("width", side_width - 10)
+            .attr("width", side_width - 20)
             .attr("height", side_height - 198)
             .style("fill", "white");
         //Add word
