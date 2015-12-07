@@ -85,7 +85,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
     var colorScale = d3.scale.linear()
         .domain([d3.min(all_data, function(d) {return d[10]}),
             d3.mean(all_data, function(d) {return d[10]}), d3.max(all_data, function(d) {return (d[10])})])
-        .range(["red", "white", "blue"]);
+        .range(["#9494ff", "#ffffff", "#ff8b60"]);
 
     //Create svg holder for viz
     var svgContainer = d3.select("#cross").append("svg")
@@ -130,7 +130,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
     //Add left text
     svgContainer.append("text")
         .attr("x", side_padding + 100)
-        .attr("y", top_padding + side_width + 50)
+        .attr("y", top_padding + side_width + (side_height/2))
         .attr("text-anchor", "middle")
         .style("font-size", "20px")
         .style("font-family", "bariol_regularregular")
@@ -139,7 +139,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
     //Add right text
     svgContainer.append("text")
         .attr("x", side_padding + side_width + side_height + 100)
-        .attr("y", top_padding + side_width + 50)
+        .attr("y", top_padding + side_width + (side_height/2))
         .attr("text-anchor", "middle")
         .style("font-size", "20px")
         .style("font-family", "bariol_regularregular")
@@ -148,8 +148,8 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
 
     //Add top text
     svgContainer.append("text")
-        .attr("x", side_padding + side_width + 100)
-        .attr("y", top_padding + 100)
+        .attr("x", side_padding + side_width + (side_height/2))
+        .attr("y", top_padding + 180)
         .attr("text-anchor", "middle")
         .style("font-size", "20px")
         .style("font-family", "bariol_regularregular")
@@ -157,8 +157,8 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
 
     //Add bottom text
     svgContainer.append("text")
-        .attr("x", side_padding + side_width + 100)
-        .attr("y", top_padding + side_width + side_height + 100)
+        .attr("x", side_padding + side_width + (side_height/2))
+        .attr("y", top_padding + side_width + side_height + 40)
         .attr("text-anchor", "middle")
         .style("font-family", "bariol_regularregular")
         .style("font-size", "20px")
@@ -177,11 +177,11 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
     function left_text() {
         svgContainer.append("text")
             .attr("x", side_padding + 100)
-            .attr("y", top_padding + side_width + 50)
-            .attr("text-anchor", "middle")
-            .style("font-size", "20px")
-            .style("font-family", "bariol_regularregular")
-            .text(leftCategory);}
+        	.attr("y", top_padding + side_width + (side_height/2))
+    		.attr("text-anchor", "middle")
+        	.style("font-size", "20px")
+        	.style("font-family", "bariol_regularregular")
+        	.text(leftCategory);}
 
     //Create function to cover old right text
     function cover_right() {
@@ -196,49 +196,51 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
     function right_text() {
         svgContainer.append("text")
             .attr("x", side_padding + side_width + side_height + 100)
-            .attr("y", top_padding + side_width + 50)
-            .attr("text-anchor", "middle")
-            .style("font-size", "20px")
-            .style("font-family", "bariol_regularregular")
-            .text(rightCategory);}
+        	.attr("y", top_padding + side_width + (side_height/2))
+        	.attr("text-anchor", "middle")
+        	.style("font-size", "20px")
+        	.style("font-family", "bariol_regularregular")
+        	.text(rightCategory);}
 
     //Create function to cover old top text
     function cover_top() {
         svgContainer.append("rect")
-            .attr("x", side_padding + side_width + 30)
-            .attr("y", top_padding + 80)
-            .attr("width", 150)
-            .attr("height", 30)
-            .style("fill", "white");}
+            .attr("x", side_padding + side_width + (side_height/2))
+        	.attr("y", top_padding + 180)
+        	.attr("text-anchor", "middle")
+        	.style("font-size", "20px")
+        	.style("font-family", "bariol_regularregular")
+        	.text(topCategory);}
 
     //Add top subreddit text
     function top_text() {
         svgContainer.append("text")
-            .attr("x", side_padding + side_width + 100)
-            .attr("y", top_padding + 100)
-            .attr("text-anchor", "middle")
-            .style("font-size", "20px")
-            .style("font-family", "bariol_regularregular")
-            .text(topCategory);}
+            .attr("x", side_padding + side_width + (side_height/2))
+        	.attr("y", top_padding + 180)
+        	.attr("text-anchor", "middle")
+        	.style("font-size", "20px")
+        	.style("font-family", "bariol_regularregular")
+        	.text(topCategory);}
 
     //Create function to cover old bottom text
     function cover_bottom() {
         svgContainer.append("rect")
-            .attr("x", side_padding + side_width + 25)
-            .attr("y", top_padding + side_width + side_height + 80)
-            .attr("width", 150)
-            .attr("height", 30)
-            .style("fill", "white");}
+            .attr("x", side_padding + side_width + (side_height/2))
+        	.attr("y", top_padding + side_width + side_height + 40)
+        	.attr("text-anchor", "middle")
+        	.style("font-family", "bariol_regularregular")
+        	.style("font-size", "20px")
+        	.text(bottomCategory);}
 
     //Add bottom subreddit text
     function bottom_text() {
         svgContainer.append("text")
-            .attr("x", side_padding + side_width + 100)
-            .attr("y", top_padding + side_width + side_height + 100)
-            .attr("text-anchor", "middle")
-            .style("font-size", "20px")
-            .style("font-family", "bariol_regularregular")
-            .text(bottomCategory);}
+            .attr("x", side_padding + side_width + (side_height/2))
+        	.attr("y", top_padding + side_width + side_height + 40)
+        	.attr("text-anchor", "middle")
+        	.style("font-family", "bariol_regularregular")
+        	.style("font-size", "20px")
+        	.text(bottomCategory);}
 
 
     //Function that updates side panels when word is selected
@@ -246,101 +248,43 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
         //Hide old data
         svgContainer.append("rect")
             .attr("x", side_padding1 + 4)
-            .attr("y", top_padding + side_width + 58)
+            .attr("y", top_padding + side_width + 50)
             .attr("width", side_width - 10)
-            .attr("height", side_height - 98)
+            .attr("height", side_height - 198)
             .style("fill", "white");
         //Add word
+        left_text();
+        right_text();
+        var side_score = json_data["dataTable"][word][direction]["ns"] * 10
         svgContainer.append("text")
             .attr("x", side_padding1 + 100)
-            .attr("y", top_padding + side_width + 80)
+            .attr("y", side_padding + side_width + (side_height/2) + 30)
             .attr("text-anchor", "middle")
             .style("font-size", "16px")
             .style("font-family", "bariol_regularregular")
-            .text("Word: " + word);
-        //Add total count
-        svgContainer.append("text")
-            .attr("x", side_padding1 + 100)
-            .attr("y", top_padding + side_width + 100)
-            .attr("text-anchor", "middle")
-            .style("font-size", "16px")
-            .style("font-family", "bariol_regularregular")
-            .text("Total Count:  " + json_data["dataTable"][word][direction]["tc"]);
-        //Add normalized count
-        svgContainer.append("text")
-            .attr("x", side_padding1 + 100)
-            .attr("y", top_padding + side_width + 120)
-            .attr("text-anchor", "middle")
-            .style("font-size", "16px")
-            .style("font-family", "bariol_regularregular")
-            .text("Normalized Count:  " + json_data["dataTable"][word][direction]["nc"]);
-        //Add total score
-        svgContainer.append("text")
-            .attr("x", side_padding1 + 100)
-            .attr("y", top_padding + side_width + 140)
-            .attr("text-anchor", "middle")
-            .style("font-size", "16px")
-            .style("font-family", "bariol_regularregular")
-            .text("Total Score:  " + json_data["dataTable"][word][direction]["ts"]);
-        //Add normalized score
-        svgContainer.append("text")
-            .attr("x", side_padding1 + 100)
-            .attr("y", top_padding + side_width + 160)
-            .attr("text-anchor", "middle")
-            .style("font-size", "16px")
-            .style("font-family", "bariol_regularregular")
-            .text("Normalized Score:  " + json_data["dataTable"][word][direction]["ns"]);
+            .text(word + ", " + side_score.toPrecision(2));
     }
 
     //Function that changes top/bottom panels when word is selected
     function update_mid_text(word, direction, top_padding1) {
         //Hide old data
         svgContainer.append("rect")
-            .attr("x", side_padding + side_width + 150)
-            .attr("y", top_padding1 + 58)
-            .attr("width", side_height - 175)
-            .attr("height", side_width - 68)
+            .attr("x", side_padding + side_width + 120)
+            .attr("y", top_padding + top_padding1 + 160)
+            .attr("width", side_height - 155)
+            .attr("height", side_width - 168)
             .style("fill", "white");
+        top_text();
+        bottom_text();
+        var top_score = json_data["dataTable"][word][direction]["ns"] * 10
+        svgContainer.append("text")
+            .attr("x", side_padding + side_width + 375)
+            .attr("y", top_padding + top_padding1 + 180)
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .style("font-family", "bariol_regularregular")
+            .text(word + ", " + top_score.toPrecision(2));
         //Show word
-        svgContainer.append("text")
-            .attr("x", side_padding + side_width + 260)
-            .attr("y", top_padding1 + 80)
-            .attr("text-anchor", "middle")
-            .style("font-size", "16px")
-            .style("font-family", "bariol_regularregular")
-            .text("Word: " + word);
-        //Show total count
-        svgContainer.append("text")
-            .attr("x", side_padding + side_width + 260)
-            .attr("y", top_padding1 + 100)
-            .attr("text-anchor", "middle")
-            .style("font-size", "16px")
-            .style("font-family", "bariol_regularregular")
-            .text("Total Count:  " + json_data["dataTable"][word][direction]["tc"]);
-        //Show normalized count
-        svgContainer.append("text")
-            .attr("x", side_padding + side_width + 260)
-            .attr("y", top_padding1 + 120)
-            .attr("text-anchor", "middle")
-            .style("font-size", "16px")
-            .style("font-family", "bariol_regularregular")
-            .text("Normalized Count:  " + json_data["dataTable"][word][direction]["nc"]);
-        //Show total score
-        svgContainer.append("text")
-            .attr("x", side_padding + side_width + 260)
-            .attr("y", top_padding1 + 140)
-            .attr("text-anchor", "middle")
-            .style("font-size", "16px")
-            .style("font-family", "bariol_regularregular")
-            .text("Total Score:  " + json_data["dataTable"][word][direction]["ts"]);
-        //Show normalized score
-        svgContainer.append("text")
-            .attr("x", side_padding + side_width + 260)
-            .attr("y", top_padding1 + 160)
-            .attr("text-anchor", "middle")
-            .style("font-size", "16px")
-            .style("font-family", "bariol_regularregular")
-            .text("Normalized Score:  " + json_data["dataTable"][word][direction]["ns"]);
     }
 
 
@@ -372,6 +316,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
                 //console.log(radiusScaler(d[9]));
                 //return radiusScaler(d[9]);
             })
+            .attr("stroke", "gray")
             .attr("fill", ("r", function(d) {
                 return colorScaler(d[10]);
             }))
@@ -395,8 +340,52 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
                 update_side_text(d[0], leftCategory, side_padding);
                 update_side_text(d[0], rightCategory, side_padding + side_width + side_height);
                 update_mid_text(d[0], topCategory, top_padding);
-                update_mid_text(d[0], bottomCategory, top_padding + side_width + side_height);});
+                update_mid_text(d[0], bottomCategory, side_width + side_height + 40 - 180);});
     }
+    
+    function add_legend_circle(color_number, y_pos) {
+    	svgContainer.append("circle")
+    		.attr("cx", 750)
+    		.attr("cy", y_pos)
+    		.attr("r", 10)
+    		.attr("stroke", "gray")
+    		.attr("fill", color_number);
+            }
+        
+     console.log(d3.mean(all_data, function(d) {return d[10]}));
+                
+    add_legend_circle("#ff8b60", 600);
+    add_legend_circle("#ffc5af", 620);
+    add_legend_circle("#ffe2d7", 640);
+    add_legend_circle("#ffffff", 660);
+    add_legend_circle("#e4e4ff", 680);
+    add_legend_circle("#c9c9ff", 700);
+    add_legend_circle("#9494ff", 720);
+    
+    svgContainer.append("text")
+    	.attr("x", 825)
+    	.attr("y", 605)
+        .attr("text-anchor", "middle")
+        .style("font-size", "16px")
+        .style("font-family", "bariol_regularregular")
+        .text("Positive Sentiment");
+        
+    svgContainer.append("text")
+    	.attr("x", 825)
+    	.attr("y", 665)
+        .attr("text-anchor", "middle")
+        .style("font-size", "16px")
+        .style("font-family", "bariol_regularregular")
+        .text("Neutral Sentiment");
+        
+    svgContainer.append("text")
+    	.attr("x", 825)
+    	.attr("y", 725)
+        .attr("text-anchor", "middle")
+        .style("font-size", "16px")
+        .style("font-family", "bariol_regularregular")
+        .text("Negative Sentiment");
+    	
 
 
     //Get top ten words for primary subreddit comparison
