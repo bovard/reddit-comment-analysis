@@ -262,7 +262,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
 
 
     //Function that updates side panels when word is selected
-    function update_side_text(word, direction, side_padding1) {
+    function update_side_text(text, word, direction, side_padding1) {
         //Hide old data
         svgContainer.append("rect")
             .attr("x", side_padding1 + 14)
@@ -274,7 +274,6 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
         //Add word
         left_text();
         right_text();
-        var side_score = json_data["dataTable"][word][direction]["ns"] * 100
         svgContainer.append("text")
             .attr("x", side_padding1 + 100)
             .attr("y", side_padding + side_width + (side_height/2) + 30)
@@ -282,11 +281,11 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
             .attr("transform", 'translate(0 '+vertAdj+')')
             .style("font-size", "16px")
             .style("font-family", "bariol_regularregular")
-            .text(word + ", " + side_score.toPrecision(2));
+            .text(word + ", " + text.toPrecision(2));
     }
 
     //Function that changes top/bottom panels when word is selected
-    function update_mid_text(word, direction, top_padding1) {
+    function update_mid_text(text, word, direction, top_padding1) {
         //Hide old data
         svgContainer.append("rect")
             .attr("x", side_padding + side_width + 120)
@@ -297,7 +296,6 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
             .style("fill", "white");
         top_text();
         bottom_text();
-        var top_score = json_data["dataTable"][word][direction]["ns"] * 100
         svgContainer.append("text")
             .attr("x", side_padding + side_width + 375)
             .attr("y", top_padding + top_padding1 + 180)
@@ -305,7 +303,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
             .attr("transform", 'translate(0 '+vertAdj+')')
             .style("font-size", "16px")
             .style("font-family", "bariol_regularregular")
-            .text(word + ", " + top_score.toPrecision(2));
+            .text(word + ", " + text.toPrecision(2));
         //Show word
     }
 
@@ -364,10 +362,10 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
             })
             //Change panels on click
             .on("click", function(d) {
-                update_side_text(d[0], leftCategory, side_padding);
-                update_side_text(d[0], rightCategory, side_padding + side_width + side_height);
-                update_mid_text(d[0], topCategory, top_padding);
-                update_mid_text(d[0], bottomCategory, side_width + side_height + 40 - 180);});
+                update_side_text(d[3] * 100, d[0], leftCategory, side_padding);
+                update_side_text(d[1] * 100, d[0], rightCategory, side_padding + side_width + side_height);
+                update_mid_text(d[7] * 100, d[0], topCategory, top_padding);
+                update_mid_text(d[5] * 100, d[0], bottomCategory, side_width + side_height + 40 - 180);});
     }
     
     function add_legend_circle(color_number, y_pos) {
@@ -432,6 +430,20 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
 
     //Go from json to array-based data format
     function get_row_data(starting_list, new_list, right, left, bottom, top) {
+    	for (i = 0, len = 7; i < len; i++) {
+    		temp = [];
+        	temp.push(new_list[0]);
+        	temp.push(json_data["dataTable"][new_list[0]][right]["nc"]);
+        	temp.push(json_data["dataTable"][new_list[0]][right]["ns"]);
+        	temp.push(json_data["dataTable"][new_list[0]][left]["nc"]);
+        	temp.push(json_data["dataTable"][new_list[0]][left]["ns"]);
+        	temp.push(json_data["dataTable"][new_list[0]][top]["nc"]);
+        	temp.push(json_data["dataTable"][new_list[0]][top]["ns"]);
+        	temp.push(json_data["dataTable"][new_list[0]][bottom]["nc"]);
+        	temp.push(json_data["dataTable"][new_list[0]][bottom]["ns"]);
+        	temp.push(temp[1]+temp[3]+temp[5]+temp[7]);
+        	temp.push(temp[2]+temp[4]+temp[6]+temp[8]);
+        starting_list.push(temp);}
         for (i = 0, len = new_list.length; i < len; i++) {
             temp = [];
             temp.push(new_list[i]);
