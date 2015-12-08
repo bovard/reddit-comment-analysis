@@ -432,15 +432,15 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
     function get_row_data(starting_list, new_list, right, left, bottom, top) {
     	for (i = 0, len = 7; i < len; i++) {
     		temp = [];
-        	temp.push(newest_list[0]);
-        	temp.push(json_data["dataTable"][newest_list[0]][right]["nc"]);
-        	temp.push(json_data["dataTable"][newest_list[0]][right]["ns"]);
-        	temp.push(json_data["dataTable"][newest_list[0]][left]["nc"]);
-        	temp.push(json_data["dataTable"][newest_list[0]][left]["ns"]);
-        	temp.push(json_data["dataTable"][newest_list[0]][top]["nc"]);
-        	temp.push(json_data["dataTable"][newest_list[0]][top]["ns"]);
-        	temp.push(json_data["dataTable"][newest_list[0]][bottom]["nc"]);
-        	temp.push(json_data["dataTable"][newest_list[0]][bottom]["ns"]);
+        	temp.push(new_list[0]);
+        	temp.push(json_data["dataTable"][new_list[0]][right]["nc"]);
+        	temp.push(json_data["dataTable"][new_list[0]][right]["ns"]);
+        	temp.push(json_data["dataTable"][new_list[0]][left]["nc"]);
+        	temp.push(json_data["dataTable"][new_list[0]][left]["ns"]);
+        	temp.push(json_data["dataTable"][new_list[0]][top]["nc"]);
+        	temp.push(json_data["dataTable"][new_list[0]][top]["ns"]);
+        	temp.push(json_data["dataTable"][new_list[0]][bottom]["nc"]);
+        	temp.push(json_data["dataTable"][new_list[0]][bottom]["ns"]);
         	temp.push(temp[1]+temp[3]+temp[5]+temp[7]);
         	temp.push(temp[2]+temp[4]+temp[6]+temp[8]);
         starting_list.push(temp);}
