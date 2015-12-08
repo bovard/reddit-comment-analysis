@@ -16,7 +16,7 @@ createClouds(cloud1, cloud2);
 
 
 function createClouds(cloud1, cloud2) {
-	d3.selectAll("svg").remove();
+	d3.select("#wordCloud").selectAll("svg").remove();
 	var list1 = data1
 				.map(function(d) { return d["value"][cloud1]["nc"] < 0.1 ? null : {text: d["key"], count: d["value"][cloud1]["nc"] * 100}  }) 
 				.filter(function (v) { return v != null})

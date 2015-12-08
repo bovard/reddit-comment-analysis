@@ -183,47 +183,37 @@
 
 
         <div class="row top-buffer">
-            <div id="option" class="center-text">
-              <div class="col-md-2 col-md-offset-2">
-                  <input name="updateButton" 
+            <div class="col-md-12">
+            <div id="optionCloud" class="center-text">
+                  <input name="updateButtonCloud" 
                            type="radio" 
                            checked="true"
                            value="AskMen vs. AskWomen" 
                            onclick="visualizeit('AskMen', 'AskWomen')"/>
-                           <br />
-                  <span class="radio-button-label">AskMen vs AskWomen</span>
-              </div>
-              <div class="col-md-2">
-                    <input name="updateButton" 
+                  <span class="radio-button-label"> AskMen vs AskWomen </span>
+                    <input name="updateButtonCloud" 
                            type="radio" 
                            value="cats vs. dogs" 
                            onclick="visualizeit('cats', 'dogs')" 
                     />
-                           <br />
-                  <span class="radio-button-label">cats vs dogs</span>
-              </div>
-              <div class="col-md-2">
-                    <input name="updateButton" 
+                  <span class="radio-button-label"> cats vs dogs </span>
+                    <input name="updateButtonCloud" 
                            type="radio" 
                            value="nfl vs. soccer" 
                            onclick="visualizeit('nfl', 'soccer')" 
                     />
-                           <br />
-                <span class="radio-button-label">nfl vs soccer</span>
-              </div>
-              <div class="col-md-2">
-                    <input name="updateButton" 
+                <span class="radio-button-label"> nfl vs soccer </span>
+                    <input name="updateButtonCloud" 
                            type="radio" 
                            value="DotA2 vs. leagueoflegends" 
                            onclick="visualizeit('DotA2', 'leagueoflegends')" 
                     />
-                           <br />
-                <span class="radio-button-label">DotA2 vs leagueoflegends</span>
-                </div>
+                <span class="radio-button-label"> DotA2 vs leagueoflegends </span>
               </div>
             </div>
         </div>
 
+        <div id="wordCloud">
 
         <div class="row center-text">
             <div id="wcLeftTitle" class="col-md-5">
@@ -241,6 +231,7 @@
             </div>
         </div>
 
+        </div>
 
 
         <div class="row top-buffer">
@@ -259,11 +250,9 @@
             </div>
         </div>
         <div class="row">
-            <div id="option2" class="center-text">
-              <div class="col-md-2">
-                    <span>Top/Bottom:</span>
-              </div>
-              <div class="col-md-2">
+            <div class="col-md-12">
+              <div id="option2" class="center-text">
+                    <span style="padding-right: 10px;">Top/Bottom:</span>
                     <input name="updateButton" 
                            type="radio" 
                            checked="true"
@@ -271,49 +260,38 @@
                            onclick="updateTop('AskMen', 'AskWomen')" 
                     />
                   <span class="radio-button-label">AskMen vs AskWomen</span>
-              </div>
-              <div class="col-md-2">
                     <input name="updateButton" 
                            type="radio" 
                            value="cats vs. dogs" 
                            onclick="updateTop('cats', 'dogs')" 
                     />
                   <span class="radio-button-label">cats vs dogs</span>
-              </div>
-              <div class="col-md-2">
                     <input name="updateButton" 
                            type="radio" 
                            value="nfl vs. soccer" 
                            onclick="updateTop('nfl', 'soccer')" 
                     />
                 <span class="radio-button-label">nfl vs soccer</span>
-              </div>
-              <div class="col-md-2">
                     <input name="updateButton" 
                            type="radio" 
                            value="DotA2 vs. leagueoflegends" 
                            onclick="updateTop('DotA2', 'leagueoflegends')" 
                     />
                 <span class="radio-button-label">DotA2 vs leagueoflegends</span>
-                </div>
               </div>
             </div>
         </div>
 
         <div class="row">
-            <div id="option3" class="center-text">
-              <div class="col-md-2">
-                    <span>Left/Right:</span>
-              </div>
-              <div class="col-md-2">
+            <div class="col-md-10 col-md-offset-2">
+              <div id="option3">
+                    <span style="padding-right: 10px;">Left/Right:</span>
                     <input name="updateButtonSide" 
                            type="radio" 
                            value="AskMen vs. AskWomen" 
                            onclick="updateSide('AskMen', 'AskWomen')" 
                     />
                   <span class="radio-button-label">AskMen vs AskWomen</span>
-              </div>
-              <div class="col-md-2">
                     <input name="updateButtonSide" 
                            type="radio" 
                            checked="true"
@@ -321,16 +299,12 @@
                            onclick="updateSide('cats', 'dogs')" 
                     />
                   <span class="radio-button-label">cats vs dogs</span>
-              </div>
-              <div class="col-md-2">
                     <input name="updateButtonSide" 
                            type="radio" 
                            value="nfl vs. soccer" 
                            onclick="updateSide('nfl', 'soccer')" 
                     />
                 <span class="radio-button-label">nfl vs soccer</span>
-              </div>
-              <div class="col-md-2">
                     <input name="updateButtonSide" 
                            type="radio" 
                            value="DotA2 vs. leagueoflegends" 
@@ -338,7 +312,6 @@
                     />
                 <span class="radio-button-label">DotA2 vs leagueoflegends</span>
                 </div>
-              </div>
             </div>
         </div>
 
