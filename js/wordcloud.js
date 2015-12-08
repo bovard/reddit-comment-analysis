@@ -270,27 +270,7 @@ function createClouds(cloud1, cloud2) {
 			.attr("y1", 320)
 			.attr("x2", textwidth - 5)
 			.attr("y2", 320);
-		svg.append("text")
-			.attr("x", textwidth/2)             
-			.attr("y", 350)
-			.attr("text-anchor", "middle")
-			.style("font-size", "16px")
-			.style("font-family", "bariol_regularregular")
-			.text('Score in each subreddit:');
-		svg.append("text")
-			.attr("x", textwidth/2)             
-			.attr("y", 380)
-			.attr("text-anchor", "middle")
-			.style("font-size", "16px")
-			.style("font-family", "bariol_regularregular")
-			.text(cloud1 +' - ' + data["dataTable"][word][cloud1]["ts"]);
-		svg.append("text")
-			.attr("x", textwidth/2)             
-			.attr("y", 410)
-			.attr("text-anchor", "middle")
-			.style("font-size", "16px")
-			.style("font-family", "bariol_regularregular")
-			.text(cloud2 + ' - ' + data["dataTable"][word][cloud2]["ts"]);
+		
 		//Create bars
 		svg.selectAll("rect").remove();
 		var startBar = 260;
