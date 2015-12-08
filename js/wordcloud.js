@@ -6,7 +6,7 @@ function visualizeit(cloud1, cloud2) {
 
 var angle = 60;
 var cloudwidth = 450;
-var cloudheight = 500;
+var cloudheight = 550;
 var textwidth = 190;
 var cloudfont = "helvetica"; //"bariol_regularregular"; // e.g. 
 
@@ -40,21 +40,20 @@ function createClouds(cloud1, cloud2) {
 	var maxCount = d3.max([max1, max2]);	
 	var minCount = d3.min([d3.min(list1, function(d){ return +d.count}), d3.min(list2, function(d){ return +d.count})]);
 	
-	console.log(minCount, maxCount)
 	var fill = d3.scale.linear()
 		.domain([minCount,  maxCount]) //d3.mean([minCount, minCount, maxCount])
-		.range(["#ff8b60",  "#FF4500"]);
-		// cross: ["#9494ff", "#ffffff", "#ff8b60"]
-		// orange #FF4500,  green #00B060, dark blue "#053D64",  bright blue #0A64A4, light orange "#FF9000"
+		.range(["#ff9e7a", "#ff5314"]);
+		// cross: ["#9494ff", "#ffffff", "#ff8b60"]	
+		// var fill = d3.scale.category10();
 	
 	// Font scale			
 	var fScale = d3.scale.linear()
 			.domain([minCount, maxCount])
-			.range([12, 120]);
+			.range([17, 110]);
 	
 	var yScale = d3.scale.linear()
 			.domain([0, maxCount*1.05])
-			.range([0, 100]);
+			.range([0, 140]);
 	// Title bar
 	d3.select("#wcLeftTitle").selectAll("*").remove();
 	d3.select("#wcLeftTitle")	
@@ -74,10 +73,10 @@ function createClouds(cloud1, cloud2) {
 	var layout = d3.layout.cloud()
 		.size([cloudwidth, cloudheight])
 		.words(list1)
-		.padding(5)
-		.rotate(function() { return ~~(Math.random() * 2) ; }) // * angle
+		.padding(1)
+		.rotate(0) //function() { return ~~(Math.random() * angle) ; }) 
 		.font(cloudfont)
-		.fontSize(function(d) { return fScale(d.count); })
+		.fontSize(function(d) { return fScale(d.count - 5); })
 		.on("end", function(d) { draw(d, "#wcLeftCloud")});
 	
 	layout.start();
@@ -147,9 +146,9 @@ function createClouds(cloud1, cloud2) {
 		.size([cloudwidth, cloudheight])
 		.words(list2)
 		.padding(1)
-		.rotate(function() { return ~~(Math.random() * 2) ; }) // * angle
+		.rotate(0) //function() { return ~~(Math.random() * angle) ; }) 
 		.font(cloudfont)
-		.fontSize(function(d) { return fScale(d.count); })
+		.fontSize(function(d) { return fScale(d.count-5); })
 		.on("end", function(d) {draw(d, "#wcRightCloud")});
 	
 	layout.start();
@@ -174,8 +173,7 @@ function createClouds(cloud1, cloud2) {
 		  .enter().append("text")
 			.style("font-size", function(d) { return d.size + "px"; })
 			.style("font-family", cloudfont)
-			.style("fill", function(d) { return fill(d.size);})
-			//.style("fill", function(d, i) { return fill(i); })
+			.style("fill", function(d) { return fill(d.size); })
 			.attr("text-anchor", "middle")
 			
 			.attr("transform", function(d) {
@@ -267,9 +265,9 @@ function createClouds(cloud1, cloud2) {
 			.style("stroke", "black")
 			.style("shape-rendering", "crispEdges")
 			.attr("x1", 5)
-			.attr("y1", 320)
+			.attr("y1", 370)
 			.attr("x2", textwidth - 5)
-			.attr("y2", 320);
+			.attr("y2", 370);
 		
 		//Create bars
 		svg.selectAll("rect").remove();
