@@ -16,7 +16,7 @@ createClouds(cloud1, cloud2);
 
 
 function createClouds(cloud1, cloud2) {
-	d3.selectAll("svg").remove();
+	
 	var list1 = data1
 				.map(function(d) { return d["value"][cloud1]["nc"] < 0.1 ? null : {text: d["key"], count: d["value"][cloud1]["nc"] * 100}  }) 
 				.filter(function (v) { return v != null})
@@ -219,7 +219,7 @@ function createClouds(cloud1, cloud2) {
 		svg.append("text")
 			.style("font-size", "5px")
 			.transition()
-			.duration(500).ease("linear")
+			.duration(300).ease("linear")
 			.attr("x", textwidth/2)             
 			.attr("y", 50)
 			.attr("text-anchor", "middle")
@@ -270,27 +270,7 @@ function createClouds(cloud1, cloud2) {
 			.attr("y1", 320)
 			.attr("x2", textwidth - 5)
 			.attr("y2", 320);
-		svg.append("text")
-			.attr("x", textwidth/2)             
-			.attr("y", 350)
-			.attr("text-anchor", "middle")
-			.style("font-size", "16px")
-			.style("font-family", "bariol_regularregular")
-			.text('Score in each subreddit:');
-		svg.append("text")
-			.attr("x", textwidth/2)             
-			.attr("y", 380)
-			.attr("text-anchor", "middle")
-			.style("font-size", "16px")
-			.style("font-family", "bariol_regularregular")
-			.text(cloud1 +' - ' + data["dataTable"][word][cloud1]["ts"]);
-		svg.append("text")
-			.attr("x", textwidth/2)             
-			.attr("y", 410)
-			.attr("text-anchor", "middle")
-			.style("font-size", "16px")
-			.style("font-family", "bariol_regularregular")
-			.text(cloud2 + ' - ' + data["dataTable"][word][cloud2]["ts"]);
+		
 		//Create bars
 		svg.selectAll("rect").remove();
 		var startBar = 260;
