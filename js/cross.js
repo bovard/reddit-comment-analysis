@@ -5,10 +5,10 @@ function Clear_All() {
     var row_data = []}
 
 
-var crossLeft = "AskMen";
-var crossRight = "AskWomen";
-var crossTop = "cats";
-var crossBottom = "dogs";
+var crossLeft = "cats";
+var crossRight = "dogs";
+var crossTop = "AskMen";
+var crossBottom = "AskWomen";
 
 var updateSide = function(left, right) {
     crossLeft = left;
@@ -389,13 +389,13 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
     add_legend_circle("#9494ff", 720);
     
     svgContainer.append("text")
-    	.attr("x", 825)
+    	.attr("x", 810)
     	.attr("y", 605)
         .attr("text-anchor", "middle")
         .attr("transform", 'translate(0 '+vertAdj+')')
         .style("font-size", "16px")
         .style("font-family", "bariol_regularregular")
-        .text("Positive Sentiment");
+        .text("Very Positive");
         
     svgContainer.append("text")
     	.attr("x", 825)
@@ -404,16 +404,16 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
         .attr("transform", 'translate(0 '+vertAdj+')')
         .style("font-size", "16px")
         .style("font-family", "bariol_regularregular")
-        .text("Neutral Sentiment");
+        .text("Postive Sentiment");
         
     svgContainer.append("text")
-    	.attr("x", 825)
+    	.attr("x", 810)
     	.attr("y", 725)
         .attr("text-anchor", "middle")
         .attr("transform", 'translate(0 '+vertAdj+')')
         .style("font-size", "16px")
         .style("font-family", "bariol_regularregular")
-        .text("Negative Sentiment");
+        .text("Less Positive");
     	
 
 
