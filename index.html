@@ -182,7 +182,50 @@
         </div>
 
 
-        <div class="row center-text top-buffer">
+        <div class="row top-buffer">
+            <div id="option" class="center-text">
+              <div class="col-md-2 col-md-offset-2">
+                  <input name="updateButton" 
+                           type="radio" 
+                           checked="true"
+                           value="AskMen vs. AskWomen" 
+                           onclick="visualizeit('AskMen', 'AskWomen')"/>
+                           <br />
+                  <span class="radio-button-label">AskMen vs AskWomen</span>
+              </div>
+              <div class="col-md-2">
+                    <input name="updateButton" 
+                           type="radio" 
+                           value="cats vs. dogs" 
+                           onclick="visualizeit('cats', 'dogs')" 
+                    />
+                           <br />
+                  <span class="radio-button-label">cats vs dogs</span>
+              </div>
+              <div class="col-md-2">
+                    <input name="updateButton" 
+                           type="radio" 
+                           value="nfl vs. soccer" 
+                           onclick="visualizeit('nfl', 'soccer')" 
+                    />
+                           <br />
+                <span class="radio-button-label">nfl vs soccer</span>
+              </div>
+              <div class="col-md-2">
+                    <input name="updateButton" 
+                           type="radio" 
+                           value="DotA2 vs. leagueoflegends" 
+                           onclick="visualizeit('DotA2', 'leagueoflegends')" 
+                    />
+                           <br />
+                <span class="radio-button-label">DotA2 vs leagueoflegends</span>
+                </div>
+              </div>
+            </div>
+        </div>
+
+
+        <div class="row center-text">
             <div id="wcLeftTitle" class="col-md-5">
             </div>
             <div id="wcRightTitle" class="col-md-5 col-md-offset-2">
@@ -198,32 +241,6 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div id="option" class="center-text">
-                    <input name="updateButton" 
-                           type="button" 
-                           value="AskMen vs. AskWomen" 
-                           onclick="visualizeit('AskMen', 'AskWomen')" 
-                    />
-                    <input name="updateButton" 
-                           type="button" 
-                           value="cats vs. dogs" 
-                           onclick="visualizeit('cats', 'dogs')" 
-                    />
-                    <input name="updateButton" 
-                           type="button" 
-                           value="nfl vs. soccer" 
-                           onclick="visualizeit('nfl', 'soccer')" 
-                    />
-                    <input name="updateButton" 
-                           type="button" 
-                           value="DotA2 vs. leagueoflegends" 
-                           onclick="visualizeit('DotA2', 'leagueoflegends')" 
-                    />
-                </div>
-            </div>
-        </div>
 
 
         <div class="row top-buffer">
@@ -242,60 +259,90 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <div id="option" class="center-text">
+            <div id="option2" class="center-text">
+              <div class="col-md-2">
                     <span>Top/Bottom:</span>
+              </div>
+              <div class="col-md-2">
                     <input name="updateButton" 
-                           type="button" 
+                           type="radio" 
+                           checked="true"
                            value="AskMen vs. AskWomen" 
                            onclick="updateTop('AskMen', 'AskWomen')" 
                     />
+                  <span class="radio-button-label">AskMen vs AskWomen</span>
+              </div>
+              <div class="col-md-2">
                     <input name="updateButton" 
-                           type="button" 
+                           type="radio" 
                            value="cats vs. dogs" 
                            onclick="updateTop('cats', 'dogs')" 
                     />
+                  <span class="radio-button-label">cats vs dogs</span>
+              </div>
+              <div class="col-md-2">
                     <input name="updateButton" 
-                           type="button" 
+                           type="radio" 
                            value="nfl vs. soccer" 
                            onclick="updateTop('nfl', 'soccer')" 
                     />
+                <span class="radio-button-label">nfl vs soccer</span>
+              </div>
+              <div class="col-md-2">
                     <input name="updateButton" 
-                           type="button" 
+                           type="radio" 
                            value="DotA2 vs. leagueoflegends" 
                            onclick="updateTop('DotA2', 'leagueoflegends')" 
                     />
+                <span class="radio-button-label">DotA2 vs leagueoflegends</span>
                 </div>
+              </div>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-md-12">
-                <div id="option" class="center-text">
+            <div id="option3" class="center-text">
+              <div class="col-md-2">
                     <span>Left/Right:</span>
-                    <input name="updateButton" 
-                           type="button" 
+              </div>
+              <div class="col-md-2">
+                    <input name="updateButtonSide" 
+                           type="radio" 
                            value="AskMen vs. AskWomen" 
                            onclick="updateSide('AskMen', 'AskWomen')" 
                     />
-                    <input name="updateButton" 
-                           type="button" 
+                  <span class="radio-button-label">AskMen vs AskWomen</span>
+              </div>
+              <div class="col-md-2">
+                    <input name="updateButtonSide" 
+                           type="radio" 
+                           checked="true"
                            value="cats vs. dogs" 
                            onclick="updateSide('cats', 'dogs')" 
                     />
-                    <input name="updateButton" 
-                           type="button" 
+                  <span class="radio-button-label">cats vs dogs</span>
+              </div>
+              <div class="col-md-2">
+                    <input name="updateButtonSide" 
+                           type="radio" 
                            value="nfl vs. soccer" 
                            onclick="updateSide('nfl', 'soccer')" 
                     />
-                    <input name="updateButton" 
-                           type="button" 
+                <span class="radio-button-label">nfl vs soccer</span>
+              </div>
+              <div class="col-md-2">
+                    <input name="updateButtonSide" 
+                           type="radio" 
                            value="DotA2 vs. leagueoflegends" 
                            onclick="updateSide('DotA2', 'leagueoflegends')" 
                     />
+                <span class="radio-button-label">DotA2 vs leagueoflegends</span>
                 </div>
+              </div>
             </div>
         </div>
-        
+
+                
 
 
         <div class="row top-buffer">
@@ -312,51 +359,25 @@
         </div>
 
 
-
-        <div class="row small-buffer center-text">
+        <div class="row center-text">
             <div class="col-md-2 col-md-offset-3">
               <span>Shelly</span>
-            </div>
-            <div class="col-md-2">
-              <span>Charlie</span>
-            </div>
-            <div class="col-md-2 center-text">
-              <span>Bovard</span>
-            </div>
-        </div>
-
-
-        <div class="row center-text">
-            <div class="col-md-2 col-md-offset-3">
                 <a href="https://www.linkedin.com/in/shellystanley">
                     <img src="img/shelly.jpg" width="100px" />
-                </a>
-            </div>
-            <div class="col-md-2">
-                <a href="https://www.linkedin.com/in/charlie-carbery-2411744b">
-                    <img src="img/charlie.jpg" width="100px"/>
-                </a>
-            </div>
-            <div class="col-md-2 center-text">
-                <a href="https://www.linkedin.com/pub/bovard-doerschuk-tiberi/39/268/345">
-                    <img src="img/bovard.jpg" width="100px"/>
-                </a>
-            </div>
-        </div>
-
-        <div class="row center-text">
-            <div class="col-md-2 col-md-offset-3">
-                <a href="https://www.linkedin.com/in/shellystanley">
                   <img src="https://static.licdn.com/scds/common/u/img/webpromo/btn_liprofile_blue_80x15.png" width="80" height="15" border="0" alt="View Shelly Stanley's profile on LinkedIn">
                 </a>
             </div>
             <div class="col-md-2">
+              <span>Charlie</span>
                 <a href="https://www.linkedin.com/in/charlie-carbery-2411744b">
+                    <img src="img/charlie.jpg" width="100px"/>
                   <img src="https://static.licdn.com/scds/common/u/img/webpromo/btn_liprofile_blue_80x15.png" width="80" height="15" border="0" alt="View Charlie Carbery's profile on LinkedIn">
                 </a>
             </div>
             <div class="col-md-2 center-text">
+              <span>Bovard</span>
                 <a href="https://www.linkedin.com/pub/bovard-doerschuk-tiberi/39/268/345">
+                    <img src="img/bovard.jpg" width="100px"/>
                   <img src="https://static.licdn.com/scds/common/u/img/webpromo/btn_liprofile_blue_80x15.png" width="80" height="15" border="0" alt="View Bovard Doerschuk-Tiberi's profile on LinkedIn">
                 </a>
             </div>
