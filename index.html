@@ -46,7 +46,7 @@
             visualizeit("AskMen", "AskWomen");
 
             // draw the cross
-            create_viz("AskMen","AskWomen","cats","dogs");
+            create_viz("cats","dogs","AskMen","AskWomen");
         })
     </script>
 
@@ -54,7 +54,7 @@
       <header>
         <div class="header-content">
             <div class="header-content-inner">
-                <h1>Cats play Dota2. Dogs play Football</h1>
+                <h1>Cats play DotA2. Dogs play Football</h1>
                 <p>Deriving meaning from the comments of internet strangers</p>
             </div>
         </div>
@@ -62,7 +62,7 @@
         <div class="row first-buffer">
             <div class="col-md-12">
                 <span>
-                    For our project, we accessed every publicly available Reddit comment via a database <a href = https://www.reddit.com/r/datasets/comments/3bxlg7/i_have_every_publicly_available_reddit_comment/> shared on reddit </a>. The dataset is very large, composing of over 58 million comments, each represented as a JSON object, and is 250 GB compressed. We looked at the top 100 words (excluding stopwords) for each of our selected subreddits and collected count and score data for each word/subreddit combination. Due to words appearing in the top 100 of multiple subreddits, we ended up with exactly 250 words in our final dataset. Additionally, since certain subreddits had a much larger userbase, we normalized the count and score statistics to allow for a fair comparison across subreddit groupings. 
+                    For our project, we accessed every publicly available Reddit comment for the month of August 2015 via a data dump <a href="https://www.reddit.com/r/datasets/comments/3k178q/reddits_august_comment_dump_is_now_available/">  shared on reddit </a>. The dataset is very large, composing of over 58 million comments, each represented as a JSON object, and is 25 GB uncompressed. We looked at the top 100 words (excluding stopwords) for each of our selected subreddits and collected count and score data for each word/subreddit combination. Due to words appearing in the top 100 of multiple subreddits, we ended up with exactly 304 words in our final dataset. Additionally, since certain subreddits had a much larger userbase, we normalized the count and score statistics to allow for a fair comparison across subreddit groupings. 
                 </span>
             </div>
         </div>
@@ -90,36 +90,91 @@
             </div>
         </div>
 
-        <div class="row top-buffer">
-            <div class="col-md-4 col-md-offset-4">
-                <ul class="list-group">
-                  <li class="list-group-item">
-                    AskMen
-                  </li>
-                  <li class="list-group-item">
-                    AskWomen
-                  </li>
-                  <li class="list-group-item">
-                    cats
-                  </li>
-                  <li class="list-group-item">
-                    dogs
-                  </li>
-                  <li class="list-group-item">
-                    DotA2
-                  </li>
-                  <li class="list-group-item">
-                    leagueoflegends
-                  </li>
-                  <li class="list-group-item">
-                    nfl
-                  </li>
-                  <li class="list-group-item">
-                    soccer
-                  </li>
-                </ul>
-            </div>
+        <div class="row small-buffer center-text">
+          <div class="col-md-3 col-md-offset-3">
+            <h3>
+                AskMen 
+            </h3> 
+            <span class="stats">
+              (143,525 comments) 
+            </span>
+          </div> 
+          <div class="col-md-3">
+              <h3>
+              AskWomen
+              </h3> 
+              <span class="stats">
+              (136,741 comments) 
+              </span>
+         </div> 
+
         </div>
+
+
+        <div class="row small-buffer center-text">
+          <div class="col-md-3 col-md-offset-3">
+            <h3>
+                cats
+            </h3> 
+            <span class="stats">
+              (21,127 comments) 
+            </span>
+          </div> 
+          <div class="col-md-3">
+              <h3>
+                dogs
+              </h3> 
+              <span class="stats">
+                (27,304 comments) 
+              </span>
+         </div> 
+
+        </div>
+
+
+        <div class="row small-buffer center-text">
+          <div class="col-md-3 col-md-offset-3">
+            <h3>
+                DotA2
+            </h3> 
+            <span class="stats">
+              (618,781 comments) 
+            </span>
+          </div> 
+          <div class="col-md-3">
+              <h3>
+                leagueoflegends
+              </h3> 
+              <span class="stats">
+                (1,147,414 comments) 
+              </span>
+         </div> 
+
+        </div>
+
+
+
+        <div class="row small-buffer center-text">
+          <div class="col-md-3 col-md-offset-3">
+            <h3>
+                nfl
+            </h3> 
+            <span class="stats">
+              (563,733 comments) 
+            </span>
+          </div> 
+
+          <div class="col-md-3">
+              <h3>
+                soccer 
+              </h3> 
+              <span class="stats">
+                (497,445 comments) 
+              </span>
+         </div> 
+
+        </div>
+
 
         <div class="row top-buffer">
             <div class="col-md-12">
@@ -130,7 +185,24 @@
             </div>
         </div>
 
-        <div class="row top-buffer">
+
+        <div class="row center-text top-buffer">
+            <div id="wcLeftTitle" class="col-md-5">
+            </div>
+            <div id="wcRightTitle" class="col-md-5 col-md-offset-2">
+            </div>
+        </div>
+
+        <div class="row center-text">
+            <div id="wcLeftCloud" class="col-md-5">
+            </div>
+            <div id="wcCenterText" class="col-md-2">
+            </div>
+            <div id="wcRightCloud" class="col-md-5">
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-md-12">
                 <div id="option" class="center-text">
                     <input name="updateButton" 
@@ -157,22 +229,6 @@
             </div>
         </div>
 
-        <div class="row center-text">
-            <div id="wcLeftTitle" class="col-md-5">
-            </div>
-            <div id="wcRightTitle" class="col-md-5 col-md-offset-2">
-            </div>
-        </div>
-
-        <div class="row center-text">
-            <div id="wcLeftCloud" class="col-md-5">
-            </div>
-            <div id="wcCenterText" class="col-md-2">
-            </div>
-            <div id="wcRightCloud" class="col-md-5">
-            </div>
-        </div>
-
 
         <div class="row top-buffer">
             <div class="col-md-12">
@@ -183,7 +239,7 @@
         </div>
 
 
-        <div class="row top-buffer">
+        <div class="row">
             <div class="col-md-12 center-text">
                 <div id="cross">
                 </div>
@@ -192,24 +248,25 @@
         <div class="row">
             <div class="col-md-12">
                 <div id="option" class="center-text">
+                    <span>Top/Bottom:</span>
                     <input name="updateButton" 
                            type="button" 
-                           value="Top: AskMen vs. AskWomen" 
+                           value="AskMen vs. AskWomen" 
                            onclick="updateTop('AskMen', 'AskWomen')" 
                     />
                     <input name="updateButton" 
                            type="button" 
-                           value="Top: cats vs. dogs" 
+                           value="cats vs. dogs" 
                            onclick="updateTop('cats', 'dogs')" 
                     />
                     <input name="updateButton" 
                            type="button" 
-                           value="Top: nfl vs. soccer" 
+                           value="nfl vs. soccer" 
                            onclick="updateTop('nfl', 'soccer')" 
                     />
                     <input name="updateButton" 
                            type="button" 
-                           value="Top: DotA2 vs. leagueoflegends" 
+                           value="DotA2 vs. leagueoflegends" 
                            onclick="updateTop('DotA2', 'leagueoflegends')" 
                     />
                 </div>
@@ -218,24 +275,25 @@
         <div class="row">
             <div class="col-md-12">
                 <div id="option" class="center-text">
+                    <span>Left/Right:</span>
                     <input name="updateButton" 
                            type="button" 
-                           value="Side: AskMen vs. AskWomen" 
+                           value="AskMen vs. AskWomen" 
                            onclick="updateSide('AskMen', 'AskWomen')" 
                     />
                     <input name="updateButton" 
                            type="button" 
-                           value="Side: cats vs. dogs" 
+                           value="cats vs. dogs" 
                            onclick="updateSide('cats', 'dogs')" 
                     />
                     <input name="updateButton" 
                            type="button" 
-                           value="Side: nfl vs. soccer" 
+                           value="nfl vs. soccer" 
                            onclick="updateSide('nfl', 'soccer')" 
                     />
                     <input name="updateButton" 
                            type="button" 
-                           value="Side: DotA2 vs. leagueoflegends" 
+                           value="DotA2 vs. leagueoflegends" 
                            onclick="updateSide('DotA2', 'leagueoflegends')" 
                     />
                 </div>
@@ -260,9 +318,6 @@
             </div>
         </div>
 
-
-        <div class="row top-buffer">
-        </div>
 
 
         <div class="row top-buffer center-text">
@@ -317,9 +372,6 @@
 
 
     </div
-
-    <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
-<script type="IN/MemberProfile" data-id="https://www.linkedin.com/in/bovard-doerschuk-tiberi-34526839" data-format="inline" data-related="false"></script>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

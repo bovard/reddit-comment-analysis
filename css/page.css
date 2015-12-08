@@ -1,8 +1,20 @@
 .top-buffer { margin-top:50px; }
+.small-buffer { margin-top:20px; }
 .start-buffer { margin-top:200px; }
 .first-buffer { margin-top:175px; }
 
 .center-text {text-align: center;}
+
+.center-vert {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.stats {
+    font-size: 1em;
+    font-style: italic;
+}
 
 .word-cloud-font {
 
