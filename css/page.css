@@ -10,6 +10,10 @@
     padding-right: 10px;
 }
 
+.blocking {
+    display: block;
+}
+
 .center-vert {
   position: relative;
   top: 50%;
