@@ -390,8 +390,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
     	.attr("x", 825)
     	.attr("y", 605)
         .attr("text-anchor", "middle")
-        .attr("transform", 'translate(0 -100)')
-            .attr("transform", 'translate(0 '+vertAdj+')')
+        .attr("transform", 'translate(0 '+vertAdj+')')
         .style("font-size", "16px")
         .style("font-family", "bariol_regularregular")
         .text("Positive Sentiment");
@@ -400,8 +399,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
     	.attr("x", 825)
     	.attr("y", 665)
         .attr("text-anchor", "middle")
-        .attr("transform", 'translate(0 -100)')
-            .attr("transform", 'translate(0 '+vertAdj+')')
+        .attr("transform", 'translate(0 '+vertAdj+')')
         .style("font-size", "16px")
         .style("font-family", "bariol_regularregular")
         .text("Neutral Sentiment");
@@ -410,8 +408,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
     	.attr("x", 825)
     	.attr("y", 725)
         .attr("text-anchor", "middle")
-        .attr("transform", 'translate(0 -100)')
-            .attr("transform", 'translate(0 '+vertAdj+')')
+        .attr("transform", 'translate(0 '+vertAdj+')')
         .style("font-size", "16px")
         .style("font-family", "bariol_regularregular")
         .text("Negative Sentiment");
