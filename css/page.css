@@ -5,6 +5,11 @@
 
 .center-text {text-align: center;}
 
+.radio-button-label {
+    font-size: 1em;
+    padding-right: 10px;
+}
+
 .center-vert {
   position: relative;
   top: 50%;
