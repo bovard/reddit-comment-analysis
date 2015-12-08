@@ -51,6 +51,9 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
     var side_height = 500;
     var side_width = 200;
 
+    var HEIGHT = 700;
+    var WIDTH = 900;
+    var vertAdj = -100;
 
     //This data is used to create the rects in the cross
     //No need to change anything, it feeds off of the above variables
@@ -89,8 +92,8 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
 
     //Create svg holder for viz
     var svgContainer = d3.select("#cross").append("svg")
-        .attr("width", 900)
-        .attr("height", 900);
+        .attr("width", WIDTH)
+        .attr("height", HEIGHT);
 
     //Create tooltip variables
     var tooltip = d3.select("body").append("div")
@@ -109,12 +112,14 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
         .attr("y", function (d) { return d.ry; })
         .attr("height", function (d) { return d.height; })
         .attr("width", function (d) { return d.width; })
+        .attr("transform", 'translate(0 '+vertAdj+')')
         .style("fill", "white")
         .style("stroke", "black");
 
     //Create lines
     var lines = svgContainer.selectAll("line")
         .data(lineData)
+        .attr("transform", 'translate(0 '+vertAdj+')')
         .enter()
         .append("line");
 
@@ -124,6 +129,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
         .attr("y1", function (d) { return d.starty; })
         .attr("x2", function (d) { return d.endx; })
         .attr("y2", function (d) { return d.endy; })
+        .attr("transform", 'translate(0 '+vertAdj+')')
         .style("stroke", "black")
         .style("stroke-dasharray", "4,4");
 
@@ -132,6 +138,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
         .attr("x", side_padding + 100)
         .attr("y", top_padding + side_width + (side_height/2))
         .attr("text-anchor", "middle")
+        .attr("transform", 'translate(0 '+vertAdj+')')
         .style("font-size", "20px")
         .style("font-family", "bariol_regularregular")
         .text(leftCategory);
@@ -141,6 +148,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
         .attr("x", side_padding + side_width + side_height + 100)
         .attr("y", top_padding + side_width + (side_height/2))
         .attr("text-anchor", "middle")
+        .attr("transform", 'translate(0 '+vertAdj+')')
         .style("font-size", "20px")
         .style("font-family", "bariol_regularregular")
         .text(rightCategory);
@@ -151,6 +159,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
         .attr("x", side_padding + side_width + (side_height/2))
         .attr("y", top_padding + 180)
         .attr("text-anchor", "middle")
+        .attr("transform", 'translate(0 '+vertAdj+')')
         .style("font-size", "20px")
         .style("font-family", "bariol_regularregular")
         .text(topCategory);
@@ -159,6 +168,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
     svgContainer.append("text")
         .attr("x", side_padding + side_width + (side_height/2))
         .attr("y", top_padding + side_width + side_height + 40)
+        .attr("transform", 'translate(0 '+vertAdj+')')
         .attr("text-anchor", "middle")
         .style("font-family", "bariol_regularregular")
         .style("font-size", "20px")
@@ -171,6 +181,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
             .attr("y", top_padding + side_width + 30)
             .attr("width", 150)
             .attr("height", 30)
+            .attr("transform", 'translate(0 '+vertAdj+')')
             .style("fill", "white");}
 
     //Add left subreddit text
@@ -179,6 +190,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
             .attr("x", side_padding + 100)
         	.attr("y", top_padding + side_width + (side_height/2))
     		.attr("text-anchor", "middle")
+            .attr("transform", 'translate(0 '+vertAdj+')')
         	.style("font-size", "20px")
         	.style("font-family", "bariol_regularregular")
         	.text(leftCategory);}
@@ -190,6 +202,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
             .attr("y", top_padding + side_width + 30)
             .attr("width", 150)
             .attr("height", 30)
+            .attr("transform", 'translate(0 '+vertAdj+')')
             .style("fill", "white");}
 
     //Add right subreddit text
@@ -198,6 +211,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
             .attr("x", side_padding + side_width + side_height + 100)
         	.attr("y", top_padding + side_width + (side_height/2))
         	.attr("text-anchor", "middle")
+            .attr("transform", 'translate(0 '+vertAdj+')')
         	.style("font-size", "20px")
         	.style("font-family", "bariol_regularregular")
         	.text(rightCategory);}
@@ -208,6 +222,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
             .attr("x", side_padding + side_width + (side_height/2))
         	.attr("y", top_padding + 180)
         	.attr("text-anchor", "middle")
+            .attr("transform", 'translate(0 '+vertAdj+')')
         	.style("font-size", "20px")
         	.style("font-family", "bariol_regularregular")
         	.text(topCategory);}
@@ -218,6 +233,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
             .attr("x", side_padding + side_width + (side_height/2))
         	.attr("y", top_padding + 180)
         	.attr("text-anchor", "middle")
+            .attr("transform", 'translate(0 '+vertAdj+')')
         	.style("font-size", "20px")
         	.style("font-family", "bariol_regularregular")
         	.text(topCategory);}
@@ -228,6 +244,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
             .attr("x", side_padding + side_width + (side_height/2))
         	.attr("y", top_padding + side_width + side_height + 40)
         	.attr("text-anchor", "middle")
+            .attr("transform", 'translate(0 '+vertAdj+')')
         	.style("font-family", "bariol_regularregular")
         	.style("font-size", "20px")
         	.text(bottomCategory);}
@@ -237,6 +254,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
         svgContainer.append("text")
             .attr("x", side_padding + side_width + (side_height/2))
         	.attr("y", top_padding + side_width + side_height + 40)
+            .attr("transform", 'translate(0 '+vertAdj+')')
         	.attr("text-anchor", "middle")
         	.style("font-family", "bariol_regularregular")
         	.style("font-size", "20px")
@@ -251,6 +269,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
             .attr("y", top_padding + side_width + 50)
             .attr("width", side_width - 20)
             .attr("height", side_height - 198)
+            .attr("transform", 'translate(0 '+vertAdj+')')
             .style("fill", "white");
         //Add word
         left_text();
@@ -260,6 +279,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
             .attr("x", side_padding1 + 100)
             .attr("y", side_padding + side_width + (side_height/2) + 30)
             .attr("text-anchor", "middle")
+            .attr("transform", 'translate(0 '+vertAdj+')')
             .style("font-size", "16px")
             .style("font-family", "bariol_regularregular")
             .text(word + ", " + side_score.toPrecision(2));
@@ -273,6 +293,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
             .attr("y", top_padding + top_padding1 + 160)
             .attr("width", side_height - 155)
             .attr("height", side_width - 168)
+            .attr("transform", 'translate(0 '+vertAdj+')')
             .style("fill", "white");
         top_text();
         bottom_text();
@@ -281,6 +302,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
             .attr("x", side_padding + side_width + 375)
             .attr("y", top_padding + top_padding1 + 180)
             .attr("text-anchor", "middle")
+            .attr("transform", 'translate(0 '+vertAdj+')')
             .style("font-size", "16px")
             .style("font-family", "bariol_regularregular")
             .text(word + ", " + top_score.toPrecision(2));
@@ -320,6 +342,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
             .attr("fill", ("r", function(d) {
                 return colorScaler(d[10]);
             }))
+            .attr("transform", 'translate(0 '+vertAdj+')')
             //Add in tooltips
             .on("mouseover", function(d) {
                 tooltip.transition()
@@ -349,8 +372,9 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
     		.attr("cy", y_pos)
     		.attr("r", 10)
     		.attr("stroke", "gray")
-    		.attr("fill", color_number);
-            }
+    		.attr("fill", color_number)
+            .attr("transform", 'translate(0 '+vertAdj+')');
+    }
         
      console.log(d3.mean(all_data, function(d) {return d[10]}));
                 
@@ -366,6 +390,8 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
     	.attr("x", 825)
     	.attr("y", 605)
         .attr("text-anchor", "middle")
+        .attr("transform", 'translate(0 -100)')
+            .attr("transform", 'translate(0 '+vertAdj+')')
         .style("font-size", "16px")
         .style("font-family", "bariol_regularregular")
         .text("Positive Sentiment");
@@ -374,6 +400,8 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
     	.attr("x", 825)
     	.attr("y", 665)
         .attr("text-anchor", "middle")
+        .attr("transform", 'translate(0 -100)')
+            .attr("transform", 'translate(0 '+vertAdj+')')
         .style("font-size", "16px")
         .style("font-family", "bariol_regularregular")
         .text("Neutral Sentiment");
@@ -382,6 +410,8 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
     	.attr("x", 825)
     	.attr("y", 725)
         .attr("text-anchor", "middle")
+        .attr("transform", 'translate(0 -100)')
+            .attr("transform", 'translate(0 '+vertAdj+')')
         .style("font-size", "16px")
         .style("font-family", "bariol_regularregular")
         .text("Negative Sentiment");
