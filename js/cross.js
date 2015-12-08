@@ -320,21 +320,25 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
         //Add attributes based on testData
         var dataCircleAttribute = dataCircles
             .attr("cx", function(d) {
-                if ((d[1] - d[3]) > .5) {
+                var diff = d[1] - d[3];
+                diff = diff > 0 ? Math.sqrt(diff): -1 * Math.sqrt(-1 * diff);
+                if (diff > .5) {
                     return circleScaler(.499);}
-                if ((d[1] - d[3]) < -.5) {
+                if (diff < -.5) {
                     return circleScaler(-.499);}
-                return circleScaler(d[1] - d[3]);
+                return circleScaler(diff);
             })
             .attr("cy", function(d) {
-                if ((d[5] - d[7]) > .5) {
+                var diff = d[5] - d[7];
+                diff = diff > 0 ? Math.sqrt(diff): -1 * Math.sqrt(-1 * diff);
+                if (diff > .5) {
                     return circleScaler(.499);}
-                if ((d[5] - d[7]) < -.5) {
+                if (diff < -.5) {
                     return circleScaler(-.499);}
-                return circleScaler(d[5] - d[7]);
+                return circleScaler(diff);
             })
             .attr("r", function(d) {
-                return 10;
+                return 7;
                 //console.log(radiusScaler(d[9]));
                 //return radiusScaler(d[9]);
             })
