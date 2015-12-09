@@ -10,6 +10,14 @@
     padding-right: 10px;
 }
 
+.headshot {
+    background-repeat: no-repeat;
+    background-position: 50%;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+
 .blocking {
     display: block;
 }
