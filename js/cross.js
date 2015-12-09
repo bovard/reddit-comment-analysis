@@ -404,7 +404,7 @@ var create_viz = function(leftCategory, rightCategory, topCategory, bottomCatego
         .attr("transform", 'translate(0 '+vertAdj+')')
         .style("font-size", "16px")
         .style("font-family", "bariol_regularregular")
-        .text("Postive Sentiment");
+        .text("Positive Sentiment");
         
     svgContainer.append("text")
     	.attr("x", 810)
